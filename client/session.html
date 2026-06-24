@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Session</title>
+    <link rel="stylesheet" href="./css/styleSession.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div id="active-workout-view">
+            <header class="workout-header">
+                <a href="workouts.html" class="back-btn">&#10094;</a>
+                <h2>Running Workout</h2>
+                <div class="small-logo">
+                    <img src="./images/icon.png" alt="Logo">
+                </div>
+            </header>
+
+            <main class="session-main">
+                <div class="timer-card">
+                    <span class="timer-label">⏱️</span>
+                    <h1 id="live-timer">00:00:00</h1>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-row">
+                        <span class="metric-icon">📏</span>
+                        <span class="metric-title">Distance</span>
+                        <span class="metric-value"><span id="live-distance">0.0</span> km</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-icon">🔥</span>
+                        <span class="metric-title">Calories</span>
+                        <span class="metric-value"><span id="live-calories">0</span> kcal</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-icon">❤️</span>
+                        <span class="metric-title">Heart Rate</span>
+                        <span class="metric-value"><span id="live-bpm">75</span> bpm</span>
+                    </div>
+                </div>
+
+                <div class="controls-row">
+                    <button class="control-btn pause-btn" id="pauseBtn">⏸ Pause</button>
+                    <button class="control-btn stop-btn" id="stopBtn">⏹ Stop</button>
+                </div>
+            </main>
+        </div>
+
+        <div id="summary-view" style="display: none;">
+            <div class="summary-green-bg">
+                <div class="success-icon">✓</div>
+                <h2>Workout Complete!</h2>
+                <p>Great job on your run</p>
+            </div>
+
+            <main class="summary-main">
+                <div class="summary-card">
+                    <h3>Workout Summary</h3>
+                    <div class="summary-stats">
+                        <div class="stat-box">
+                            <span class="stat-label">⏱️ Duration</span>
+                            <span class="stat-val" id="sum-duration">00:00:00</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">📏 Distance</span>
+                            <span class="stat-val" id="sum-distance">0.0 km</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">🔥 Calories</span>
+                            <span class="stat-val" id="sum-calories">0 kcal</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">❤️ Avg Heart Rate</span>
+                            <span class="stat-val" id="sum-bpm">0 bpm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-actions">
+                    <button class="primary-btn" id="doneBtn">Done</button>
+                    <button class="secondary-btn">View History</button>
+                </div>
+            </main>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Home</a>
+            <a href="profile.html" class="nav-item"><span class="nav-icon">👤</span>Profile</a>
+            <a href="settings.html" class="nav-item"><span class="nav-icon">⚙️</span>Settings</a>
+        </nav>
+    </div>
+
+    <script src="./js/scriptSession.js"></script>
+</body>
+</html>

@@ -1,28 +1,29 @@
-// תופסים את הטופס לפי ה-ID שלו
+document.addEventListener('DOMContentLoaded', () => {
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    if (savedEmail) {
+        document.getElementById('email').value = savedEmail;
+        document.getElementById('rememberMe').checked = true; // מסמן את ה-V אוטומטית
+    }
+});
+
 const loginForm = document.getElementById('loginForm');
 
-// מאזינים לאירוע של שליחת הטופס (לחיצה על כפתור הלוגין)
-loginForm.addEventListener('submit', function(event) {
-    // מונע מהדף להתרענן אוטומטית (ברירת המחדל של טפסים)
+loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    // תופסים את השדות והערכים שהמשתמש הזין
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
-    
-    // תופסים את המקומות שבהם נציג את השגיאות
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
+    const serverMessage = document.getElementById('loginMessage');
 
-    // מאפסים את הודעות השגיאה לפני כל בדיקה חדשה
     emailError.textContent = '';
     passwordError.textContent = '';
+    serverMessage.textContent = '';
+    serverMessage.className = 'server-message';
 
     let isValid = true;
-
-    // --- בדיקת אימייל ---
     const emailValue = emailInput.value.trim();
-    // תבנית בסיסית לבדיקת אימייל חוקי (חייב להכיל @ ונקודה)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (emailValue === '') {
@@ -33,9 +34,7 @@ loginForm.addEventListener('submit', function(event) {
         isValid = false;
     }
 
-    // --- בדיקת סיסמה ---
     const passwordValue = passwordInput.value.trim();
-
     if (passwordValue === '') {
         passwordError.textContent = 'Password is required.';
         isValid = false;
@@ -44,11 +43,52 @@ loginForm.addEventListener('submit', function(event) {
         isValid = false;
     }
 
-    // --- אם הכל תקין ---
     if (isValid) {
-        // מציגים הודעת הצלחה (בשלב זה אין חיבור לשרת אמיתי)
-        alert('Login successful! Welcome back.');
-        // אפשר גם לאפס את הטופס אם רוצים
-        window.location.href = 'index.html';
+        try {
+            const submitBtn = document.querySelector('#loginForm .primary-btn');
+            submitBtn.textContent = 'Logging in...';
+            submitBtn.disabled = true;
+
+            const response = await fetch('http://localhost:5000/api/users/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: emailValue, password: passwordValue })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                serverMessage.textContent = 'Login successful! Welcome back.';
+                serverMessage.classList.add('success');
+                
+                // הוסף את זה ממש לפני ה- setTimeout
+                const rememberMeChecked = document.getElementById('rememberMe').checked;
+                if (rememberMeChecked) {
+                    localStorage.setItem('rememberedEmail', emailValue);
+                } else {
+                        localStorage.removeItem('rememberedEmail');
+                }
+                
+                // שמירת פרטי המשתמש בדפדפן כדי לדעת מי מחובר בשאר המסכים
+                localStorage.setItem('user', JSON.stringify(data));
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            } else {
+                serverMessage.textContent = data.message || 'Invalid email or password.';
+                serverMessage.classList.add('error');
+                submitBtn.textContent = 'Login';
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            serverMessage.textContent = 'Server error. Please check your connection.';
+            serverMessage.classList.add('error');
+            
+            const submitBtn = document.querySelector('#loginForm .primary-btn');
+            submitBtn.textContent = 'Login';
+            submitBtn.disabled = false;
+        }
     }
 });

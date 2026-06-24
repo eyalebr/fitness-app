@@ -74,6 +74,8 @@ body {
     font-weight: 500;
 }
 
+.input-group input[type="text"],
+.input-group input[type="date"],
 .input-group input[type="email"],
 .input-group input[type="password"] {
     padding: 15px;
@@ -162,4 +164,20 @@ body {
     color: #6a9c78; 
     font-weight: bold;
     text-decoration: none;
+}
+
+/* --- הודעות שרת (במקום alert) --- */
+.server-message {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    min-height: 20px;
+}
+.server-message.success {
+    color: #6a9c78; /* ירוק הצלחה */
+}
+.server-message.error {
+    color: #d9534f; /* אדום שגיאה */
 }

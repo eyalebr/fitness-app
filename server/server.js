@@ -6,6 +6,8 @@ const connectDB = require('./config/db'); // <--: ייבוא פונקציית ה
 // <--: ייבוא קובץ הראוטס שיצרנו
 const workoutRoutes = require('./routes/workoutRoutes');
 const externalRoutes = require('./routes/externalRoutes');
+const userRoutes = require('./routes/userRoutes');
+
 // 2. אתחול השרת
 const app = express();
 // <--: הפעלת החיבור למסד הנתונים
@@ -25,6 +27,8 @@ app.get('/', (req, res) => {
 // כל בקשה שתתחיל ב- /api/workouts תופנה לקובץ הראוטס שלנו
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/explore', externalRoutes);
+app.use('/api/users', userRoutes);
+
 // 5. הגדרת הפורט והפעלת השרת
 // השרת יחפש את הפורט בקובץ ה-.env, ואם לא ימצא, ישתמש ב-5000 כברירת מחדל
 const PORT = process.env.PORT || 5000;

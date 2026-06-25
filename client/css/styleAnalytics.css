@@ -77,7 +77,7 @@ body {
 }
 
 .analytics-main {
-    padding: 12px 28px 95px;
+    padding: 40px 28px 95px;
     flex-grow: 1;
 }
 
@@ -152,6 +152,7 @@ body {
     font-size: 21px;
     color: #1a1a1a;
     margin-bottom: 10px;
+    padding: 10px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -165,7 +166,7 @@ body {
 .history-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
 .history-item {

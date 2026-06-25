@@ -1,7 +1,7 @@
 // פונקציה 1: שליפת סטטיסטיקות של האימונים
 async function fetchWorkoutStats() {
     try {
-        const response = await fetch('http://localhost:5000/api/workouts/stats/summary');
+        const response = await fetch('http://localhost:3000/api/workouts/stats/summary');
         
         if (!response.ok) {
             throw new Error('Failed to fetch stats');
@@ -21,7 +21,7 @@ async function fetchWorkoutStats() {
 // פונקציה 2: שליפת מסלולי הליכה מה-API החיצוני
 async function fetchTrails() {
     try {
-        const response = await fetch('http://localhost:5000/api/explore/trails');
+        const response = await fetch('http://localhost:3000/api/explore/trails');
         const data = await response.json();
         
         const container = document.getElementById('trails-container');

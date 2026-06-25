@@ -30,8 +30,8 @@ app.use('/api/explore', externalRoutes);
 app.use('/api/users', userRoutes);
 
 // 5. הגדרת הפורט והפעלת השרת
-// השרת יחפש את הפורט בקובץ ה-.env, ואם לא ימצא, ישתמש ב-5000 כברירת מחדל
-const PORT = process.env.PORT || 5000;
+// השרת יחפש את הפורט בקובץ ה-.env, ואם לא ימצא, ישתמש ב-3000 כברירת מחדל
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server is running smoothly on port ${PORT}`);

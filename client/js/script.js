@@ -1,51 +1,94 @@
-// פונקציה 1: שליפת סטטיסטיקות של האימונים
-async function fetchWorkoutStats() {
-    try {
-        const response = await fetch('http://localhost:5000/api/workouts/stats/summary');
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch stats');
-        }
-
-        const stats = await response.json();
-
-        document.getElementById('total-workouts').textContent = stats.totalWorkouts || 0;
-        document.getElementById('total-calories').textContent = stats.totalCalories || 0;
-        document.getElementById('total-time').innerHTML = `${stats.totalDuration || 0} <span class="unit">min</span>`;
-
-    } catch (error) {
-        console.error('Error loading statistics:', error);
-    }
-}
-
-// פונקציה 2: שליפת מסלולי הליכה מה-API החיצוני
-async function fetchTrails() {
-    try {
-        const response = await fetch('http://localhost:5000/api/explore/trails');
-        const data = await response.json();
-        
-        const container = document.getElementById('trails-container');
-        container.innerHTML = ''; // מנקה את המילה "Loading..."
-        
-        // עובר על כל מסלול שחזר מהשרת ומייצר לו שורה ב-HTML
-        data.suggestions.forEach(trail => {
-            container.innerHTML += `
-                <div class="progress-row" style="margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
-                    <div style="display: flex; flex-direction: column;">
-                        <span class="row-value" style="font-size: 15px;">${trail.name}</span>
-                        <span class="row-label" style="font-size: 12px; margin-top: 3px; color: #888;">${trail.address}</span>
-                    </div>
-                </div>
-            `;
-        });
-    } catch (error) {
-        console.error('Error fetching trails:', error);
-        document.getElementById('trails-container').innerHTML = '<p style="text-align: center; color: #d9534f;">Could not load trails.</p>';
-    }
-}
-
-// ברגע שהדף מסיים להיטען, מפעילים את שתי הפונקציות ביחד
 document.addEventListener('DOMContentLoaded', () => {
-    fetchWorkoutStats();
-    fetchTrails();
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    if (savedEmail) {
+        document.getElementById('email').value = savedEmail;
+        document.getElementById('rememberMe').checked = true; // מסמן את ה-V אוטומטית
+    }
+});
+
+const loginForm = document.getElementById('loginForm');
+
+loginForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+    const serverMessage = document.getElementById('loginMessage');
+
+    emailError.textContent = '';
+    passwordError.textContent = '';
+    serverMessage.textContent = '';
+    serverMessage.className = 'server-message';
+
+    let isValid = true;
+    const emailValue = emailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (emailValue === '') {
+        emailError.textContent = 'Email address is required.';
+        isValid = false;
+    } else if (!emailRegex.test(emailValue)) {
+        emailError.textContent = 'Please enter a valid email address.';
+        isValid = false;
+    }
+
+    const passwordValue = passwordInput.value.trim();
+    if (passwordValue === '') {
+        passwordError.textContent = 'Password is required.';
+        isValid = false;
+    } else if (passwordValue.length < 6) {
+        passwordError.textContent = 'Password must be at least 6 characters long.';
+        isValid = false;
+    }
+
+    if (isValid) {
+        try {
+            const submitBtn = document.querySelector('#loginForm .primary-btn');
+            submitBtn.textContent = 'Logging in...';
+            submitBtn.disabled = true;
+
+            const response = await fetch('http://localhost:5000/api/users/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: emailValue, password: passwordValue })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                serverMessage.textContent = 'Login successful! Welcome back.';
+                serverMessage.classList.add('success');
+                
+                // הוסף את זה ממש לפני ה- setTimeout
+                const rememberMeChecked = document.getElementById('rememberMe').checked;
+                if (rememberMeChecked) {
+                    localStorage.setItem('rememberedEmail', emailValue);
+                } else {
+                        localStorage.removeItem('rememberedEmail');
+                }
+                
+                // שמירת פרטי המשתמש בדפדפן כדי לדעת מי מחובר בשאר המסכים
+                localStorage.setItem('user', JSON.stringify(data));
+
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 1000);
+            } else {
+                serverMessage.textContent = data.message || 'Invalid email or password.';
+                serverMessage.classList.add('error');
+                submitBtn.textContent = 'Login';
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            serverMessage.textContent = 'Server error. Please check your connection.';
+            serverMessage.classList.add('error');
+            
+            const submitBtn = document.querySelector('#loginForm .primary-btn');
+            submitBtn.textContent = 'Login';
+            submitBtn.disabled = false;
+        }
+    }
 });

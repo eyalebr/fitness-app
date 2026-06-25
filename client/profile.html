@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Fitness Tracking App</title>
+    <link rel="stylesheet" href="./css/styleProfile.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div id="main-profile-view">
+            <header class="profile-header">
+                <h2>Profile</h2>
+            </header>
+
+            <main class="profile-main">
+                <div class="user-card">
+                    <div class="user-header">
+                        <div class="avatar-circle">
+                            <span class="avatar-icon">👤</span>
+                        </div>
+                        <div class="user-titles">
+                            <h3 id="displayName">Loading...</h3>
+                            <p id="displayEmail">loading@email.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="divider"></div>
+
+                    <div class="user-details">
+                        <div class="detail-row">
+                            <span class="detail-icon">👤</span>
+                            <div class="detail-text">
+                                <span class="detail-label">Name</span>
+                                <span class="detail-value" id="detailName">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-icon">✉️</span>
+                            <div class="detail-text">
+                                <span class="detail-label">Email</span>
+                                <span class="detail-value" id="detailEmail">loading@email.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-list">
+                    <button class="menu-btn" id="btnGoToEdit">
+                        <span class="menu-icon">👤</span> Edit Profile <span class="arrow">›</span>
+                    </button>
+                    <button class="menu-btn" id="btnGoals">
+                        <span class="menu-icon">🎯</span> Goals <span class="arrow">›</span>
+                    </button>
+                    <button class="menu-btn" id="btnSettings">
+                        <span class="menu-icon">⚙️</span> Settings <span class="arrow">›</span>
+                    </button>
+                </div>
+
+                <button class="logout-btn" id="btnLogout">
+                    <span class="logout-icon">↪</span> Logout
+                </button>
+            </main>
+        </div>
+
+        <div id="edit-profile-view" style="display: none;">
+            <header class="profile-header">
+                <button class="back-btn" id="btnBackToProfile">‹</button>
+                <h2 style="flex-grow: 1; text-align: center; margin-right: 20px;">Edit Profile</h2>
+            </header>
+
+            <main class="profile-main">
+                <div class="edit-card">
+                    <button class="edit-action-btn">Change Profile Picture</button>
+                    <button class="edit-action-btn">Change Password</button>
+                    <button class="edit-action-btn">Change Email</button>
+                </div>
+            </main>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item active">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span>Profile</span>
+            </a>
+            <a href="settings.html" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="./js/scriptProfile.js"></script>
+</body>
+</html>

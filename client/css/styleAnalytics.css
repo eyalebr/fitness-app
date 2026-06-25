@@ -1,0 +1,242 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #fcfbfb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 500px;
+    height: 1000px;
+    background-color: #ffffff;
+    border-radius: 35px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.analytics-header {
+    position: relative;
+    padding: 35px 20px 15px;
+}
+
+.small-logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    background-color: #6a9c78;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.small-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.header-title-row {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin-top: 60px;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #1a1a1a;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.analytics-header h1 {
+    font-size: 27px;
+    color: #1a1a1a;
+    font-weight: 700;
+}
+
+.header-divider {
+    border: none;
+    border-top: 1px solid #bfbfbf;
+}
+
+.analytics-main {
+    padding: 12px 28px 95px;
+    flex-grow: 1;
+}
+
+.analytics-card {
+    background-color: #efefef;
+    border-radius: 12px;
+    padding: 15px 18px 10px;
+    box-shadow: 0 3px 7px rgba(0,0,0,0.25);
+    margin-bottom: 18px;
+}
+
+.analytics-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.analytics-card-header h2 {
+    font-size: 21px;
+    line-height: 1.05;
+    color: #1a1a1a;
+}
+
+.toggle-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.toggle-btn {
+    border: none;
+    border-radius: 9px;
+    padding: 4px 22px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.toggle-btn.active {
+    background-color: #6a9c78;
+    color: #ffffff;
+}
+
+.chart-wrapper {
+    height: 185px;
+    margin-top: 10px;
+}
+
+.analytics-stats {
+    border-top: 1px solid #bfbfbf;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding-top: 6px;
+    text-align: center;
+}
+
+.analytics-stat span {
+    color: #6a9c78;
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.analytics-stat p {
+    color: #1a1a1a;
+    font-size: 14px;
+    line-height: 1.05;
+    margin-top: 4px;
+}
+
+.history-section h2 {
+    font-size: 21px;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.history-section h2 span {
+    color: #888;
+    font-size: 17px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.history-item {
+    background-color: #efefef;
+    border-radius: 10px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.history-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.history-icon {
+    font-size: 18px;
+}
+
+.history-text h3 {
+    font-size: 17px;
+    color: #1a1a1a;
+    line-height: 1;
+}
+
+.history-text p,
+.history-details p {
+    font-size: 13px;
+    color: #888;
+}
+
+.history-details {
+    text-align: right;
+}
+
+.history-details strong {
+    font-size: 17px;
+    color: #1a1a1a;
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 15px 0 20px;
+    border-top: 1px solid #d8d8d8;
+    position: absolute;
+    bottom: 0;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #a0a0a0;
+    font-size: 13px;
+    font-weight: 500;
+    flex: 1;
+}
+
+.nav-item.active {
+    color: #6a9c78;
+}
+
+.nav-icon {
+    font-size: 35px;
+    margin-bottom: 3px;
+}

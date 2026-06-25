@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History & Analytics</title>
+    <link rel="stylesheet" href="./css/styleAnalytics.css">
+</head>
+<body>
+    <div class="app-container">
+
+        <header class="analytics-header">
+            <div class="small-logo">
+                <img src="./images/icon.png" alt="Logo">
+            </div>
+
+            <div class="header-title-row">
+                <a href="index.html" class="back-btn">&#10094;</a>
+                <h1>History & Analytics</h1>
+            </div>
+        </header>
+
+        <hr class="header-divider">
+
+        <main class="analytics-main">
+            <section class="analytics-card">
+                <div class="analytics-card-header">
+                    <h2>Progress<br>Analytics</h2>
+
+                    <div class="toggle-buttons">
+                        <button id="weeklyBtn" class="toggle-btn active">Weekly</button>
+                        <button id="monthlyBtn" class="toggle-btn">Monthly</button>
+                    </div>
+                </div>
+
+                <div class="chart-wrapper">
+                    <canvas id="progressChart"></canvas>
+                </div>
+
+                <div class="analytics-stats">
+                    <div class="analytics-stat">
+                        <span id="totalWorkouts">7</span>
+                        <p>Total<br>Workouts</p>
+                    </div>
+
+                    <div class="analytics-stat">
+                        <span id="avgDuration">45</span>
+                        <p>Avg Duration</p>
+                    </div>
+
+                    <div class="analytics-stat">
+                        <span id="caloriesBurned">537</span>
+                        <p id="caloriesLabel">average calories<br>burned</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="history-section">
+                <h2><span>▣</span> Workout History</h2>
+
+                <div id="historyList" class="history-list"></div>
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                Home
+            </a>
+            <a href="profile.html" class="nav-item">
+                <span class="nav-icon">👤</span>
+                Profile
+            </a>
+            <a href="settings.html" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./js/scriptAnalytics.js"></script>
+</body>
+</html>

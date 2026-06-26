@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Fitness Tracking App</title>
+    <link rel="stylesheet" href="./css/styleSettings.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header class="header">
+            <a href="home.html" class="back-btn">‹</a>
+            <h2>Notifications</h2>
+        </header>
+
+        <main class="notifications-main">
+            
+            <div class="toggle-card">
+                <span class="toggle-label">Allow notification</span>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="notifications-list">
+                
+                <div class="notif-card">
+                    <div class="notif-icon bg-yellow">🔔</div>
+                    <div class="notif-content">
+                        <h4>Time to move</h4>
+                        <p>You've been sitting for a while. Time for a quick walk!</p>
+                        <span class="time">10 minutes ago</span>
+                    </div>
+                </div>
+
+                <div class="notif-card">
+                    <div class="notif-icon bg-green">🏆</div>
+                    <div class="notif-content">
+                        <h4>Workout goal achieved</h4>
+                        <p>Congratulations! You reached your weekly distance goal of 25km.</p>
+                        <span class="time">2 hours ago</span>
+                    </div>
+                </div>
+
+                <div class="notif-card unread">
+                    <div class="notif-icon bg-green">📈</div>
+                    <div class="notif-content">
+                        <h4>New personal record</h4>
+                        <p>You ran 6.5km today - your longest run this month!</p>
+                        <span class="time">1 day ago</span>
+                    </div>
+                </div>
+
+                <div class="notif-card">
+                    <div class="notif-icon bg-grey">📉</div>
+                    <div class="notif-content">
+                        <h4>Daily goal reminder</h4>
+                        <p>You're at 8,547 steps. Just 1,453 more to reach your daily goal!</p>
+                        <span class="time">1 day ago</span>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span>Profile</span>
+            </a>
+            <a href="settings.html" class="nav-item active">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+    </div>
+
+</body>
+</html>

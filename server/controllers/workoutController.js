@@ -74,27 +74,40 @@ const getWorkoutsByType = async (req, res) => {
     }
 };
 
-// 6. שאילתה מורכבת 2: סטטיסטיקות מתקדמות (Aggregation)
+// 6. שאילתה מורכבת: סטטיסטיקות יומיות ושבועיות
 const getWorkoutStats = async (req, res) => {
     try {
-        // שימוש ב-Aggregation Pipeline של מונגו כדי לבצע חישובים מתמטיים על כל הנתונים
-        const stats = await Workout.aggregate([
-            {
-                $group: {
-                    _id: null, // אנחנו רוצים לסכם את הכל לקבוצה אחת גדולה
-                    totalWorkouts: { $sum: 1 }, // סופר כמה אימונים יש סך הכל
-                    totalCalories: { $sum: "$calories" }, // מחבר את כל הקלוריות
-                    totalDuration: { $sum: "$duration" } // מחבר את כל דקות האימון
-                }
-            }
+        const now = new Date();
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+
+        // 1. סיכום נתונים יומיים
+        const dailyStats = await Workout.aggregate([
+            { $match: { createdAt: { $gte: startOfToday } } },
+            { $group: { 
+                _id: null, 
+                steps: { $sum: "$steps" }, 
+                calories: { $sum: "$calories" }, 
+                duration: { $sum: "$duration" } 
+            }}
         ]);
 
-        // אם אין אימונים בכלל, נחזיר אפסים כדי שהלקוח לא יקרוס
-        if (stats.length === 0) {
-            return res.status(200).json({ totalWorkouts: 0, totalCalories: 0, totalDuration: 0 });
-        }
+        // 2. סיכום נתונים שבועיים
+        const weeklyStats = await Workout.aggregate([
+            { $match: { createdAt: { $gte: startOfWeek } } },
+            { $group: { 
+                _id: null, 
+                totalWorkouts: { $sum: 1 }, 
+                totalDistance: { $sum: "$distance" }, 
+                totalCalories: { $sum: "$calories" } 
+            }}
+        ]);
 
-        res.status(200).json(stats[0]);
+        // שליחת התשובה המאוחדת
+        res.status(200).json({
+            daily: dailyStats[0] || { steps: 0, calories: 0, duration: 0 },
+            weekly: weeklyStats[0] || { totalWorkouts: 0, totalDistance: 0, totalCalories: 0 }
+        });
     } catch (error) {
         res.status(500).json({ message: 'Error calculating stats', error: error.message });
     }

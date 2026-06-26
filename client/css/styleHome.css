@@ -3,43 +3,66 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* פונט נקי זמני */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* --- רקע הדף הכללי --- */
 body {
     background-color: #f1eeee; 
     display: flex;
-    flex-direction: column; /* מסדר את האלמנטים בעמודה מלמעלה למטה */
+    flex-direction: column; 
     align-items: center;
     min-height: 100vh;
     padding-top: 20px;
 }
 
-/* --- מעטפת האפליקציה (מדמה מסך סמארטפון) --- */
+/* --- מעטפת האפליקציה (שומרת על גובה קבוע כמו בשאר הדפים) --- */
 .app-container {
     width: 100%;
     max-width: 500px;
     background-color: #ffffff;
-    border-radius: 35px; /* מעגל את כל הפינות של המסך */
+    border-radius: 35px; 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
-    overflow: hidden; /* חותך תוכן שחורג מהפינות המעוגלות */
+    overflow: hidden; 
     display: flex;
     flex-direction: column;
+    height: 1000px; 
+    max-height: 95vh;
+    position: relative; /* הוסף חובה עבור המפה במסך מלא */
 }
 
-header, main {
+header {
     padding: 20px;
 }
+
+/* --- האזור המרכזי - כאן הוספנו את הגלילה! --- */
+main {
+    padding: 0 20px 20px 20px;
+    flex-grow: 1; 
+    overflow-y: auto; 
+}
+
+/* --- עיצוב פס הגלילה למראה של אפליקציה --- */
+main::-webkit-scrollbar {
+    width: 6px; 
+}
+main::-webkit-scrollbar-track {
+    background: transparent; 
+}
+main::-webkit-scrollbar-thumb {
+    background-color: #b0b0b0; 
+    border-radius: 10px; 
+}
+
 /* --- עיצוב החלק העליון (Header) --- */
 .top-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); 
 }
+
 /* כותרת good morning */
 .greeting-area h1 {
     font-size: 24px;
@@ -55,7 +78,7 @@ header, main {
 .profile-icon img {
     width: 80px;
     height: 80px;
-    border-radius: 50%; /* הופך את התמונה לעגולה */
+    border-radius: 50%; 
 }
 
 /* --- עיצוב כרטיסיות הנתונים (Daily Summary) --- */
@@ -64,7 +87,6 @@ header, main {
     color: #333;
     margin-bottom: 15px;
     margin-top: 10px;
-    
 }
 
 .stats-container {
@@ -72,14 +94,13 @@ header, main {
     flex-direction: column;
     gap: 15px;
     margin-bottom: 25px;
-    
 }
 
 .stat-card {
     background-color: #f5f5f5;
     border-radius: 12px;
     padding: 15px 15px 20px 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* הצללה */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     display: flex;
     flex-direction: column;
 }
@@ -88,7 +109,7 @@ header, main {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 12px; /* רווח בין הטקסט לפס ההתקדמות */
+    margin-bottom: 12px; 
 }
 
 .stat-left {
@@ -163,7 +184,7 @@ header, main {
     justify-content: center;
     align-items: center;
     margin-bottom: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .primary-btn .plus-icon {
@@ -172,43 +193,30 @@ header, main {
 }
 
 .primary-btn img {
-    width: 40px; /* מגביל את הרוחב */
-    height: 40px; /* מגביל את הגובה */
-    margin-right: 10px; /* מייצר רווח בין הסמל לטקסט */
-    object-fit: contain; /* שומר שהתמונה לא תתעוות */
-}
-
-.secondary-btn {
-    width: 100%;
-    background-color: #e6e6e6; 
-    color: #333;
-    border: none;
-    padding: 12px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 15px;
+    width: 40px; 
+    height: 40px; 
+    margin-right: 10px; 
+    object-fit: contain; 
 }
 
 /* --- התקדמות שבועית --- */
 .weekly-progress-card {
-    background-color: #e0ddddee; 
-    border-radius: 16px; /* פינות מעוגלות כמו בכרטיסיות למעלה */
+    background-color: #f5f5f5; 
+    border-radius: 16px; 
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     display: flex;
     flex-direction: column;
-    margin-bottom: 25px; /* רווח לפני תפריט הניווט */
+    margin-bottom: 25px; 
 }
 
 .weekly-header {
     display: flex;
-    align-items: center; /* מוודא שהאייקון והטקסט באותו קו אופקי */
-    margin-bottom: 25px; /* רווח יפה בין הכותרת לנתונים */
+    align-items: center; 
+    margin-bottom: 25px; 
 }
 
-.weekly-header .trend-icon {
+.trend-icon {
     font-size: 20px;
     margin-right: 12px;
     color: #6a9c78; 
@@ -224,7 +232,7 @@ header, main {
 .progress-details {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* הריווח המדויק בין השורות, ללא קווים! */
+    gap: 20px; 
     margin-bottom: 25px;
 }
 
@@ -232,7 +240,7 @@ header, main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: none; /* מוודא שאין קווים מפרידים */
+    border-bottom: none; 
 }
 
 .row-label {
@@ -249,16 +257,17 @@ header, main {
 /* כפתור אפור פנימי */
 .secondary-btn {
     width: 100%;
-    background-color: #b7b3b3;
+    background-color: #e6e6e6;
     color: #1a1a1a;
     border: none;
     padding: 12px;
-    border-radius: 25px; /* אליפסה מושלמת */
+    border-radius: 25px; 
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
+
 /* --- תפריט ניווט תחתון --- */
 .bottom-nav {
     display: flex;
@@ -266,9 +275,11 @@ header, main {
     align-items: center;
     width: 100%;
     background-color: #ffffff;
-    padding: 20px 0 20px 0;
+    padding: 15px 0 20px 0;
     border-top: 1px solid #f0f0f0;
     box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03); 
+    margin-top: auto; 
+    flex-shrink: 0; 
 }
 
 .nav-item {
@@ -286,12 +297,86 @@ header, main {
     border-radius: 0;
 }
 
-/* עיצוב לעמוד הפעיל (Home כרגע) */
 .nav-item.active {
     color: #6a9c78;
 }
 
 .nav-icon {
-    font-size: 40px; 
+    font-size: 30px; 
     margin-bottom: 5px;
+}
+
+/* --- הגדרות למפה במסך מלא --- */
+.expand-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 400;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.map-fullscreen {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1000 !important;
+    border-radius: 35px !important;
+    margin: 0 !important;
+}
+
+.close-map-btn {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    z-index: 1001;
+    background-color: white;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.random-route-btn {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+    background-color: #6a9c78;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    white-space: nowrap;
+}
+/* עיצוב כפתור ה-Let's Go בתוך המפה */
+.lets-go-btn {
+    background-color: #6a9c78; /* צבע ירוק תואם לאפליקציה */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.lets-go-btn:hover {
+    background-color: #557d60; /* צבע כהה יותר במעבר עכבר */
 }

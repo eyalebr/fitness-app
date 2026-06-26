@@ -1,17 +1,19 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-body { background-color: #2b2b2b; display: flex; justify-content: center; min-height: 100vh; padding: 20px; }
-.app-container { width: 100%; max-width: 500px; background-color: #f1eeee; border-radius: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; overflow: hidden; min-height: 800px; position: relative;}
+body { background-color: #f1eeee;  display: flex;flex-direction: column; align-items: center;min-height: 100vh; padding-top: 20px ; }
+.app-container { width: 100%; max-width: 500px; background-color: #ffffff;border-radius: 35px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);  overflow: hidden; display: flex; flex-direction: column;max-height: 96vh;height: 1000px;}
 
 /* Header */
-.profile-header { background-color: #e3e3e3; padding: 40px 20px 20px; display: flex; align-items: center; }
+.profile-header { background-color: #ffffff; padding: 50px 30px 20px 30px; display: flex; align-items: center; }
 .profile-header h2 { font-size: 30px; color: #333; }
-.back-btn { background: none; border: none; font-size: 30px; cursor: pointer; color: #333; padding-right: 15px; }
+.back-btn { background: none; border: none; font-size: 60px; cursor: pointer; color: #333; padding-right: 12px;transform: translateY(-7px) }
+
+.header-divider {border: none;border-top: 3px solid #434242;margin: 20px 0;box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5)}
 
 /* Main Content */
-.profile-main { padding: 50px; flex-grow: 1; margin-bottom: 70px; }
+.profile-main { padding: 50px; flex-grow: 1; margin-bottom: 50px; }
 
 /* User Card */
-.user-card { background-color: #ffffff; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px; }
+.user-card { background-color: #ffffff; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 25px; }
 .user-header { display: flex; align-items: center; margin-bottom: 20px; }
 .avatar-circle { width: 60px; height: 60px; background-color: #799681; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; color: white; margin-right: 15px; }
 .user-titles h3 { font-size: 18px; color: #1a1a1a; margin-bottom: 3px; }
@@ -27,50 +29,40 @@ body { background-color: #2b2b2b; display: flex; justify-content: center; min-he
 
 /* Menu List */
 .menu-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
-.menu-btn { background-color: #ffffff; border: 1px solid #eee; padding: 18px 20px; border-radius: 15px; display: flex; align-items: center; font-size: 15px; color: #333; font-weight: 500; cursor: pointer; text-align: left; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+.menu-btn { background-color: #ffffff; border: 1px solid #eee; padding: 18px 20px; border-radius: 15px; display: flex; align-items: center; font-size: 15px; color: #333; font-weight: 500; cursor: pointer; text-align: left; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 .menu-icon { margin-right: 15px; font-size: 18px; opacity: 0.7; }
 .arrow { margin-left: auto; color: #aaa; font-size: 18px; }
 
 /* Logout Button */
-.logout-btn { width: 100%; background-color: #d90429; color: white; border: none; padding: 18px; border-radius: 15px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(217, 4, 41, 0.2); }
+.logout-btn { width: 100%; background-color: #d90429; color: white; border: none; padding: 18px; border-radius: 15px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(217, 4, 41, 0.3); }
 .logout-icon { margin-right: 10px; font-size: 18px; }
 
 /* Edit Card */
-.edit-card { background-color: #ffffff; border-radius: 20px; padding: 30px 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 15px; }
-.edit-action-btn { background-color: #e6e6e6; border: none; padding: 18px; border-radius: 10px; font-size: 15px; color: #333; font-weight: 500; cursor: pointer; }
+.edit-card {
+    background-color: #f4f4f4; border-radius: 12px; padding: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); display: flex;flex-direction: column; gap: 12px; width: 100%;max-width: 400px;margin: 0 auto;margin: 100px auto 0 auto;}
 
-.bottom-nav {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    background-color: #ffffff;
-    padding: 15px 0 20px 0;
-    border-top: 1px solid #f0f0f0;
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03); 
+/* עיצוב הכותרת */
+.edit-label {font-size: 16px; font-weight: 600;color: #333;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+
+/* עיצוב שדה ההזנה */
+.edit-input { width: 100%; padding: 12px 15px;border: 2px solid #ddd; border-radius: 8px; font-size: 15px;color: #333;  outline: none; transition: border-color 0.3s ease; /* מעבר חלק בצבע המסגרת */}
+
+/* עיצוב המסגרת הכחולה בעת לחיצה (Focus) */
+.edit-input:focus {
+    border-color: #2196F3; /* צבע תכלת-כחול בדומה לתמונה */
 }
 
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: #a0a0a0;
-    font-size: 13px;
-    font-weight: 500;
-    flex: 1;
-    background-color: transparent;
-    box-shadow: none; 
-    border-radius: 0;
-}
+/* עיצוב כפתור האישור */
+.confirm-btn { width: 100%; max-width: 400px; background-color: #6a9c78; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 30px auto 0 auto; display: block; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.2s ease, transform 0.1s ease; }
+
+/* אפקט לחיצה על הכפתור */
+.confirm-btn:active { transform: scale(0.98); background-color: #588565; }
+
+.bottom-nav { display: flex;justify-content: space-around;align-items: center;width: 100%;background-color: #ffffff;padding: 15px 0 20px 0;border-top: 1px solid #f0f0f0;box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03);margin-top: auto; }
+
+.nav-item {display: flex;flex-direction: column;align-items: center; justify-content: center;text-decoration: none;color: #a0a0a0;font-size: 13px; font-weight: 500;flex: 1;background-color: transparent; box-shadow: none; border-radius: 0;}
 
 /* עיצוב לעמוד הפעיל (Home כרגע) */
-.nav-item.active {
-    color: #6a9c78;
-}
+.nav-item.active { color: #6a9c78;}
 
-.nav-icon {
-    font-size: 40px; 
-    margin-bottom: 5px;
-}
+.nav-icon {font-size: 40px; margin-bottom: 5px;}

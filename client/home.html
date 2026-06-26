@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness Tracking App</title>
     <link rel="stylesheet" href="./css/styleHome.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -13,7 +16,7 @@
         <header class="top-header">
             <div class="greeting-area">
                 <h1>Good Morning</h1>
-                <p class="date">Sunday, February 9, 2026</p>
+                <p class="date" id="current-date"></p>
             </div>
             <div class="profile-icon">
                 <img src="./images/icon.png" alt="Profile">
@@ -21,67 +24,58 @@
         </header>
 
         <main>
-            <section class="data-summary">
-                <h2>Daily Summary</h2>
-                
-                <div class="stats-container">
-                    
-                    <div class="stat-card">
-                        <div class="stat-top">
-                            <div class="stat-left">
-                                <span class="icon">👣</span>
-                                <div class="stat-info">
-                                    <span class="stat-title">Steps</span>
-                                    <span class="stat-value" id="total-calories">0</span>
-                                </div>
-                            </div>
-                            <div class="stat-right">
-                                <span class="stat-goal">Goal: 10,000</span>
-                            </div>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill" style="width: 85%;"></div>
-                        </div>
+<section class="data-summary">
+    <h2>Daily Summary</h2>
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-top">
+                <div class="stat-left">
+                    <span class="icon">👣</span>
+                    <div class="stat-info">
+                        <span class="stat-title">Steps</span>
+                        <span class="stat-value" id="daily-steps">0</span>
                     </div>
-
-                    <div class="stat-card">
-                        <div class="stat-top">
-                            <div class="stat-left">
-                                <span class="icon">🔥</span>
-                                <div class="stat-info">
-                                    <span class="stat-title">Calories</span>
-                                    <span class="stat-value">520</span>
-                                </div>
-                            </div>
-                            <div class="stat-right">
-                                <span class="stat-goal">Goal: 600</span>
-                            </div>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill" style="width: 86%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-top">
-                            <div class="stat-left">
-                                <span class="icon">⏱️</span>
-                                <div class="stat-info">
-                                    <span class="stat-title">Active Time</span>
-                                    <span class="stat-value" id="total-time">0 <span class="unit">min</span></span>
-                                </div>
-                            </div>
-                            <div class="stat-right">
-                                <span class="stat-goal">Goal: 60 min</span>
-                            </div>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill" style="width: 75%;"></div>
-                        </div>
-                    </div>
-
                 </div>
-            </section>
+                <div class="stat-right"><span class="stat-goal">Goal: 10,000</span></div>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-steps" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <div class="stat-left">
+                    <span class="icon">🔥</span>
+                    <div class="stat-info">
+                        <span class="stat-title">Calories</span>
+                        <span class="stat-value" id="daily-calories">0</span>
+                    </div>
+                </div>
+                <div class="stat-right"><span class="stat-goal">Goal: 600</span></div>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-calories" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <div class="stat-left">
+                    <span class="icon">⏱️</span>
+                    <div class="stat-info">
+                        <span class="stat-title">Active Time</span>
+                        <span class="stat-value" id="daily-time">0 <span class="unit">min</span></span>
+                    </div>
+                </div>
+                <div class="stat-right"><span class="stat-goal">Goal: 60 min</span></div>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-time" style="width: 0%;"></div>
+            </div>
+        </div>
+    </div>
+</section>
 
             <button class="primary-btn start-workout" onclick="window.location.href='workouts.html'">
                 <img src="./images/icon.png" alt="Pulse" class="btn-icon"> Start Workout
@@ -97,16 +91,13 @@
                 <div class="progress-details">
                     <div class="progress-row">
                         <span class="row-label">Workouts Completed</span>
-                        <span class="row-value" id="total-workouts">0</span>
-                    </div>
+                        <span class="row-value" id="weekly-workouts">0</span> </div>
                     <div class="progress-row">
                         <span class="row-label">Total Distance</span>
-                        <span class="row-value">24.5 km</span>
-                    </div>
+                        <span class="row-value" id="weekly-distance">0 km</span> </div>
                     <div class="progress-row">
                         <span class="row-label">Calories Burned</span>
-                        <span class="row-value">2,340 kcal</span>
-                    </div>
+                        <span class="row-value" id="weekly-calories">0 kcal</span> </div>
                 </div>
                 
                 <button class="secondary-btn" onclick="window.location.href='analytics.html'">View Full Analytics</button>
@@ -118,18 +109,16 @@
                     <span class="trend-icon">📍</span>
                     <h2>Recommended Trails</h2>
                 </div>
-                <div id="trails-container" class="progress-details">
-                    <p style="text-align: center; color: #888;">Loading nearby trails...</p>
+                <div id="map-wrapper" style="position: relative;">
+                    <div id="map" style="height: 250px; border-radius: 12px; z-index: 1;"></div>
+                    <button id="expandMapBtn" class="expand-btn">⛶</button>
                 </div>
             </section>
             
         </main>
 
-        <nav class="bottom-nav">
-                
-            </section>
-            
-        </main>
+        <button id="closeMapBtn" class="close-map-btn" style="display: none;">‹ Close</button>
+        <button id="randomRouteBtn" class="random-route-btn" style="display: none;">🎲 Random Route</button>
 
         <nav class="bottom-nav">
             <a href="home.html" class="nav-item active">

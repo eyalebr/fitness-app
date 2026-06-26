@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     } else {
         // אם אין משתמש מחובר - מעיפים אותו למסך הלוגין
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     }
 
     // 2. מעבר למסך עריכת פרופיל
@@ -35,6 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // מחיקת נתוני המשתמש מהדפדפן
         localStorage.removeItem('user');
         // העברה לעמוד ההתחברות
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     });
 });

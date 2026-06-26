@@ -14,6 +14,8 @@
             <header class="profile-header">
                 <h2>Profile</h2>
             </header>
+            
+                <hr class="header-divider">
 
             <main class="profile-main">
                 <div class="user-card">
@@ -68,15 +70,18 @@
         <div id="edit-profile-view" style="display: none;">
             <header class="profile-header">
                 <button class="back-btn" id="btnBackToProfile">‹</button>
-                <h2 style="flex-grow: 1; text-align: center; margin-right: 20px;">Edit Profile</h2>
+                <h2>Edit Profile</h2>
             </header>
+
+                <hr class="header-divider">
 
             <main class="profile-main">
                 <div class="edit-card">
-                    <button class="edit-action-btn">Change Profile Picture</button>
-                    <button class="edit-action-btn">Change Password</button>
-                    <button class="edit-action-btn">Change Email</button>
+                    <label for="newPassword" class="edit-label">Change Password</label>
+                    <input type="password" id="newPassword" class="edit-input" placeholder="Enter new password">
                 </div>
+                <button class="confirm-btn" id="btnConfirmChange">Confirm</button>       
+
             </main>
         </div>
 

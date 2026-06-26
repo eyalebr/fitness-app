@@ -47,7 +47,7 @@ registerForm.addEventListener('submit', async function(event) {
             submitBtn.textContent = 'Registering...';
             submitBtn.disabled = true;
 
-            const response = await fetch('http://localhost:5001/api/users/register', {
+            const response = await fetch('http://localhost:3000/api/users/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ fullName, birthDate, email, password })

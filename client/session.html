@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout Session</title>
     <link rel="stylesheet" href="./css/styleSession.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
 </head>
 <body>
 
@@ -19,6 +26,8 @@
                 </div>
             </header>
 
+            <hr class="header-divider">
+
             <main class="session-main">
                 <div class="timer-card">
                     <span class="timer-label">⏱️</span>
@@ -29,7 +38,7 @@
                     <div class="metric-row">
                         <span class="metric-icon">📏</span>
                         <span class="metric-title">Distance</span>
-                        <span class="metric-value"><span id="live-distance">0.0</span> km</span>
+                        <span class="metric-value"><span id="live-distance">0.00</span> km</span>
                     </div>
                     <div class="metric-row">
                         <span class="metric-icon">🔥</span>
@@ -47,6 +56,13 @@
                     <button class="control-btn pause-btn" id="pauseBtn">⏸ Pause</button>
                     <button class="control-btn stop-btn" id="stopBtn">⏹ Stop</button>
                 </div>
+
+                <div class="map-section">
+                    <div id="session-map-wrapper" style="position: relative;">
+                        <div id="session-map" style="height: 220px; border-radius: 15px; z-index: 1;"></div>
+                        <button id="expandSessionMapBtn" class="expand-btn">⛶</button>
+                    </div>
+                </div>
             </main>
         </div>
 
@@ -54,7 +70,7 @@
             <div class="summary-green-bg">
                 <div class="success-icon">✓</div>
                 <h2>Workout Complete!</h2>
-                <p>Great job on your run</p>
+                <p>Great job on your workout</p>
             </div>
 
             <main class="summary-main">
@@ -86,6 +102,8 @@
                 </div>
             </main>
         </div>
+
+        <button id="closeSessionMapBtn" class="close-map-btn" style="display: none;">‹ Close</button>
 
         <nav class="bottom-nav">
             <a href="home.html" class="nav-item"><span class="nav-icon">🏠</span>Home</a>

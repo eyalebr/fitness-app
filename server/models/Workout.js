@@ -23,6 +23,14 @@ const workoutSchema = new mongoose.Schema({
     calories: {
         type: Number, // קלוריות שנשרפו
         default: 0 // אם המשתמש לא הזין קלוריות, נשמור 0 כברירת מחדל
+    },
+    steps: {
+        type: Number,
+        default: 0
+    },
+    distance: {
+        type: Number,
+        default: 0
     }
 }, { 
     timestamps: true // טריק מעולה: מונגו יוסיף אוטומטית שדות של "מתי נוצר" (createdAt) ו"מתי עודכן" (updatedAt)

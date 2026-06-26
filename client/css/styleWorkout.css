@@ -6,38 +6,37 @@
 }
 
 body {
-    background-color: #fcfbfb; 
+    background-color: #f1eeee; 
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* מסדר את האלמנטים בעמודה מלמעלה למטה */
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    padding-top: 20px ;
 }
 
 .app-container {
-    width: 100%;
+     width: 100%;
     max-width: 500px;
     background-color: #ffffff;
-    border-radius: 35px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 35px; /* מעגל את כל הפינות של המסך */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+    overflow: hidden; /* חותך תוכן שחורג מהפינות המעוגלות */
     display: flex;
     flex-direction: column;
-    min-height: 800px;
-    overflow: hidden;
-    position: relative;
 }
 
 /* --- הדר עליון --- */
 .workout-header {
     position: relative;
-    padding: 35px 20px 15px 20px;
+    padding: 35px 20px 15px 20px ;
+    
 }
 
 .header-title-row {
     display: flex;
     align-items: center;
     gap: 25px;
-    margin-top: 60px; 
+    margin-top: 5px; 
 }
 
 .small-logo {
@@ -72,9 +71,7 @@ body {
 }
 
 .header-divider {
-    border: none;
-    border-top: 1px solid #0d0d0d;
-    margin: 5px 0;
+   border: none;border-top: 3px solid #434242;margin: 20px 0;box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5)
 }
 
 /* --- אזור האימונים --- */
@@ -87,6 +84,8 @@ body {
     font-size: 18px;
     color: #555;
     margin-bottom: 15px;
+    font-weight: 600;
+
 }
 
 .workouts-list {
@@ -165,7 +164,7 @@ body {
     align-items: center;
     width: 100%;
     background-color: #ffffff;
-    padding: 15px 0 20px 0;
+    padding: 10px 0 20px 0;
     border-top: 1px solid #f0f0f0;
     box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03); 
 }

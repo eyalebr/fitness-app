@@ -2,34 +2,33 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* פונט נקי זמני */
 }
 
 body {
-    background-color: #fcfbfb;
+    background-color: #f1eeee; 
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* מסדר את האלמנטים בעמודה מלמעלה למטה */
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    padding-top: 20px;
 }
 
 .app-container {
     width: 100%;
     max-width: 500px;
-    height: 1000px;
     background-color: #ffffff;
-    border-radius: 35px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-radius: 35px; /* מעגל את כל הפינות של המסך */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+    overflow: hidden; /* חותך תוכן שחורג מהפינות המעוגלות */
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    position: relative;
+    
 }
 
 .analytics-header {
     position: relative;
-    padding: 35px 20px 15px;
+    padding: 50px ;
 }
 
 .small-logo {
@@ -54,8 +53,8 @@ body {
 .header-title-row {
     display: flex;
     align-items: center;
-    gap: 22px;
-    margin-top: 60px;
+    gap: 20px;
+    margin-top: -15px 15px 100px 20px;
 }
 
 .back-btn {
@@ -73,7 +72,9 @@ body {
 
 .header-divider {
     border: none;
-    border-top: 1px solid #bfbfbf;
+    border-top: 1px solid #434242;
+    ;margin: 10px 0;
+    box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5)
 }
 
 .analytics-main {
@@ -216,10 +217,9 @@ body {
     align-items: center;
     width: 100%;
     background-color: #ffffff;
-    padding: 15px 0 20px;
-    border-top: 1px solid #d8d8d8;
-    position: absolute;
-    bottom: 0;
+    padding: 20px 0 20px 0;
+    border-top: 1px solid #f0f0f0;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03); 
 }
 
 .nav-item {

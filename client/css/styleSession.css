@@ -1,27 +1,47 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-body { background-color: #f1eeee; display: flex; justify-content: center; min-height: 100vh; padding: 20px; }
-.app-container { width: 100%; max-width: 500px; background-color: #fcfbfb; border-radius: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; overflow: hidden; min-height: 300px; position: relative;}
+body {
+    background-color: #f1eeee; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 20px;
+}
+.app-container {
+    width: 100%;
+    max-width: 500px;
+    background-color: #ffffff;
+    border-radius: 35px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 96vh;
+    height: 1000px;
+    position: relative; /* חשוב למפה מסך מלא */
+}
 
 /* Header */
-.workout-header { display: flex; align-items: center; justify-content: space-between; padding: 30px 20px 10px; }
+.workout-header { display: flex; align-items: center; padding: 30px 20px 10px; }
 .back-btn { text-decoration: none; color: #1a1a1a; font-size: 20px; font-weight: bold; }
-.workout-header h2 { font-size: 25px; color: #333; }
-.small-logo { width: 70px; height: 70px; background-color: #6a9c78; border-radius: 50%; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.workout-header h2 { font-size: 25px; color: #333; margin-left: 20px; } 
+.small-logo { width: 70px; height: 70px; background-color: #6a9c78; border-radius: 50%; display: flex; justify-content: center; align-items: center; overflow: hidden; margin-left: auto; } 
 .small-logo img { width: 100%; height: 100%; object-fit: contain; }
+.header-divider {border: none;border-top: 3px solid #434242;margin: 20px 0;box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5)}
 
 /* Active Main */
-.session-main { padding: 15px; flex-grow: 1; margin-top: 40px; }
+.session-main { padding: 15px; flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column;}
 .timer-card { background-color: #799681; color: white; border-radius: 20px; padding: 30px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 .timer-label { font-size: 50px; opacity: 0.9; }
 .timer-card h1 { font-size: 60px; font-weight: bold; margin-top: 10px; letter-spacing: 2px; }
 
-.metrics-grid { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
-.metric-row { background-color: #ffffff; padding: 20px; border-radius: 15px; display: flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.metrics-grid { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+.metric-row { background-color: #ffffff; padding: 20px; border-radius: 15px; display: flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; }
 .metric-icon { font-size: 20px; margin-right: 15px; }
 .metric-title { flex-grow: 1; color: #888; font-size: 16px; }
 .metric-value { font-weight: bold; font-size: 18px; color: #1a1a1a; }
 
-.controls-row { display: flex; gap: 15px; }
+.controls-row { display: flex; gap: 15px; margin-bottom: 20px; }
 .control-btn { flex: 1; padding: 18px; border: none; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
 .pause-btn { background-color: #e6e6e6; color: #333; }
 .stop-btn { background-color: #d90429; color: white; }
@@ -44,10 +64,14 @@ body { background-color: #f1eeee; display: flex; justify-content: center; min-he
 .primary-btn { background-color: #6a9c78; color: white; border: none; padding: 18px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
 .secondary-btn { background-color: #e6e6e6; color: #333; border: none; padding: 18px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
 
-.bottom-nav {display: flex;justify-content: space-around;align-items: center; width: 100%;background-color: #ffffff;padding: 15px 10 20px 0;border-top: 1px solid #f0f0f0;box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03); }
-.nav-item {display: flex; flex-direction: column;align-items: center;justify-content: center;text-decoration: none;color: #a0a0a0;font-size: 13px; font-weight: 500;flex: 1; background-color: transparent;box-shadow: none; border-radius: 0;}
-
-/* עיצוב לעמוד הפעיל (Home כרגע) */
-.nav-item.active {color: #6a9c78;}
-
+/* Bottom Nav */
+.bottom-nav { display: flex;justify-content: space-around;align-items: center;width: 100%;background-color: #ffffff;padding: 15px 0 20px 0;border-top: 1px solid #f0f0f0;box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03);margin-top: auto;flex-shrink: 0; }
+.nav-item {display: flex;flex-direction: column;align-items: center; justify-content: center;text-decoration: none;color: #a0a0a0;font-size: 13px; font-weight: 500;flex: 1;background-color: transparent; box-shadow: none; border-radius: 0;}
+.nav-item.active { color: #6a9c78;}
 .nav-icon {font-size: 40px; margin-bottom: 5px;}
+
+/* --- Live Map Styles --- */
+.map-section { width: 100%; margin-bottom: 20px; }
+.expand-btn { position: absolute; bottom: 10px; right: 10px; z-index: 400; background: white; border: 1px solid #ccc; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.map-fullscreen { position: absolute !important; top: 0; left: 0; width: 100% !important; height: 100% !important; z-index: 1000 !important; border-radius: 35px !important; margin: 0 !important; }
+.close-map-btn { position: absolute; top: 30px; left: 20px; z-index: 1001; background-color: white; color: #333; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }

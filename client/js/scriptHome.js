@@ -1,51 +1,134 @@
-// פונקציה 1: שליפת סטטיסטיקות של האימונים
+// פונקציה ראשית לשליפת ועדכון נתונים מהשרת
 async function fetchWorkoutStats() {
     try {
-        const response = await fetch('http://localhost:3000/api/workouts/stats/summary');
+        const response = await fetch('http://localhost:3000/api/workouts/stats/summary', {
+            headers: { 'Cache-Control': 'no-cache' }
+        });
         
-        if (!response.ok) {
-            throw new Error('Failed to fetch stats');
+        if (!response.ok) throw new Error('Failed to fetch stats');
+        
+        const data = await response.json();
+        console.log("Stats received from server:", data); 
+
+        // 1. עדכון יומי (Daily Summary)
+        if (data.daily) {
+            const steps = data.daily.steps || 0;
+            const calories = data.daily.calories || 0;
+            const duration = data.daily.duration || 0;
+
+            document.getElementById('daily-steps').textContent = steps.toLocaleString();
+            document.getElementById('daily-calories').textContent = calories;
+            document.getElementById('daily-time').innerHTML = `${duration} <span class="unit">min</span>`;
+            
+            // עדכון פסי התקדמות (Progress bars)
+            document.getElementById('progress-steps').style.width = `${Math.min((steps / 10000) * 100, 100)}%`;
+            document.getElementById('progress-calories').style.width = `${Math.min((calories / 600) * 100, 100)}%`;
+            document.getElementById('progress-time').style.width = `${Math.min((duration / 60) * 100, 100)}%`;
         }
 
-        const stats = await response.json();
-
-        document.getElementById('total-workouts').textContent = stats.totalWorkouts || 0;
-        document.getElementById('total-calories').textContent = stats.totalCalories || 0;
-        document.getElementById('total-time').innerHTML = `${stats.totalDuration || 0} <span class="unit">min</span>`;
-
+        // 2. עדכון שבועי (Weekly Progress)
+        if (data.weekly) {
+            document.getElementById('weekly-workouts').textContent = data.weekly.totalWorkouts || 0;
+            document.getElementById('weekly-distance').textContent = `${(data.weekly.totalDistance || 0).toFixed(1)} km`;
+            document.getElementById('weekly-calories').textContent = `${data.weekly.totalCalories || 0} kcal`;
+        }
     } catch (error) {
-        console.error('Error loading statistics:', error);
+        console.error('Error fetching stats:', error);
     }
 }
 
-// פונקציה 2: שליפת מסלולי הליכה מה-API החיצוני
-async function fetchTrails() {
-    try {
-        const response = await fetch('http://localhost:3000/api/explore/trails');
-        const data = await response.json();
-        
-        const container = document.getElementById('trails-container');
-        container.innerHTML = ''; // מנקה את המילה "Loading..."
-        
-        // עובר על כל מסלול שחזר מהשרת ומייצר לו שורה ב-HTML
-        data.suggestions.forEach(trail => {
-            container.innerHTML += `
-                <div class="progress-row" style="margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
-                    <div style="display: flex; flex-direction: column;">
-                        <span class="row-value" style="font-size: 15px;">${trail.name}</span>
-                        <span class="row-label" style="font-size: 12px; margin-top: 3px; color: #888;">${trail.address}</span>
-                    </div>
-                </div>
-            `;
-        });
-    } catch (error) {
-        console.error('Error fetching trails:', error);
-        document.getElementById('trails-container').innerHTML = '<p style="text-align: center; color: #d9534f;">Could not load trails.</p>';
+// פונקציית המפה
+function initMap() {
+    let startPoint = [32.0823, 34.8107]; 
+    const map = L.map('map').setView(startPoint, 13);
+    let currentRouteLine = null;
+    let endMarker = null;
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19, attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // --- הוספת המיקום שלך ---
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                startPoint = [position.coords.latitude, position.coords.longitude];
+                map.setView(startPoint, 14);
+                L.marker(startPoint).addTo(map).bindPopup("You are here!").openPopup();
+            },
+            (error) => { console.error("Error getting location: ", error); }
+        );
     }
+
+    // לוגיקת המפה והפונקציונליות
+    const mapDiv = document.getElementById('map');
+    const mapWrapper = document.getElementById('map-wrapper');
+    const expandBtn = document.getElementById('expandMapBtn');
+    const closeBtn = document.getElementById('closeMapBtn');
+    const randomBtn = document.getElementById('randomRouteBtn');
+
+    expandBtn.addEventListener('click', () => {
+        mapDiv.classList.add('map-fullscreen');
+        mapWrapper.style.position = 'static'; 
+        closeBtn.style.display = 'block';
+        randomBtn.style.display = 'block';
+        expandBtn.style.display = 'none';
+        setTimeout(() => { map.invalidateSize(); }, 300);
+    });
+
+    closeBtn.addEventListener('click', () => {
+        mapDiv.classList.remove('map-fullscreen');
+        mapWrapper.style.position = 'relative'; 
+        closeBtn.style.display = 'none';
+        randomBtn.style.display = 'none';
+        expandBtn.style.display = 'block';
+        setTimeout(() => { map.invalidateSize(); map.setView(startPoint, 14); }, 300);
+    });
+
+    randomBtn.addEventListener('click', () => {
+        const latOffset = (Math.random() - 0.5) * 0.04;
+        const lngOffset = (Math.random() - 0.5) * 0.04;
+        const randomCoords = [startPoint[0] + latOffset, startPoint[1] + lngOffset];
+        map.setView(randomCoords, 14);
+        map.fire('click', { latlng: { lat: randomCoords[0], lng: randomCoords[1] } });
+    });
+
+    map.on('click', function(e) {
+        if (!mapDiv.classList.contains('map-fullscreen')) return;
+        if (currentRouteLine) map.removeLayer(currentRouteLine); 
+        if (endMarker) map.removeLayer(endMarker); 
+
+        const endPoint = [e.latlng.lat, e.latlng.lng];
+        endMarker = L.marker(endPoint).addTo(map);
+        const distanceKM = (L.latLng(startPoint).distanceTo(e.latlng) / 1000).toFixed(2);
+
+        currentRouteLine = L.polyline([startPoint, endPoint], {
+            color: '#2196F3', weight: 5, opacity: 0.7, dashArray: '10, 10'
+        }).addTo(map);
+
+        endMarker.bindPopup(`
+    <div style="text-align: center;">
+        <p style="margin: 0 0 8px 0; font-size: 14px;">Distance: <b>${distanceKM} km</b></p>
+        <button class="lets-go-btn" onclick="window.location.href='workouts.html?targetLat=${endPoint[0]}&targetLng=${endPoint[1]}'">
+            Let's Go!
+        </button>
+    </div>
+`).openPopup();
+    });
 }
 
-// ברגע שהדף מסיים להיטען, מפעילים את שתי הפונקציות ביחד
+// אתחול הכל בטעינת הדף
 document.addEventListener('DOMContentLoaded', () => {
+    // עדכון תאריך אוטומטי
+    const dateElement = document.getElementById('current-date');
+    if (dateElement) {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateElement.textContent = new Date().toLocaleDateString('en-US', options);
+    }
+
     fetchWorkoutStats();
-    fetchTrails();
+    initMap();
+    
+    // רענון אוטומטי כל 30 שניות
+    setInterval(fetchWorkoutStats, 30000);
 });

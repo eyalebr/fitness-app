@@ -1,139 +1,85 @@
-const weeklyBtn = document.getElementById('weeklyBtn');
-const monthlyBtn = document.getElementById('monthlyBtn');
+// הגדרת משתנה הגרף באופן גלובלי
+let progressChart;
 
-const totalWorkouts = document.getElementById('totalWorkouts');
-const avgDuration = document.getElementById('avgDuration');
-const caloriesBurned = document.getElementById('caloriesBurned');
-const caloriesLabel = document.getElementById('caloriesLabel');
-const historyList = document.getElementById('historyList');
+// פונקציה לטעינת נתונים מהשרת
+async function loadData() {
+    try {
+        // משיכת נתונים מהשרת במקביל לביצועים מהירים
+        const [workoutsRes, chartRes, statsRes] = await Promise.all([
+            fetch('http://localhost:3000/api/workouts'),
+            fetch('http://localhost:3000/api/workouts/weekly-chart'),
+            fetch('http://localhost:3000/api/workouts/stats/summary')
+        ]);
 
-const weeklyData = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    values: [320, 450, 380, 450, 500, 590, 430],
-    totalWorkouts: 7,
-    avgDuration: 45,
-    calories: 537,
-    caloriesText: 'average calories<br>burned'
-};
+        const workouts = await workoutsRes.json();
+        const chartData = await chartRes.json();
+        const stats = await statsRes.json();
 
-const monthlyData = {
-    labels: ['week 1', 'week 2', 'week 3', 'week 4'],
-    values: [2100, 2400, 2250, 2700],
-    totalWorkouts: 23,
-    avgDuration: 52,
-    calories: '5,618',
-    caloriesText: 'Calories Burned'
-};
+        // 1. עדכון רשימת האימונים עם האייקונים והתאריך
+        const historyList = document.getElementById('historyList');
+        historyList.innerHTML = '';
+        
+        const activityIcons = {
+            'Running': '🏃',
+            'Walking': '🚶',
+            'Cycling': '🚴',
+            'Custom': '⚡'
+        };
 
-const workoutsHistory = [
-    {
-        type: 'Running',
-        date: 'Feb 8, 2026',
-        duration: '32 min',
-        details: '5.2 km • 420 kcal',
-        icon: '👟'
-    },
-    {
-        type: 'Cycling',
-        date: 'Feb 7, 2026',
-        duration: '45 min',
-        details: '15.8 km • 580 kcal',
-        icon: '🚴'
-    }
-];
-
-const ctx = document.getElementById('progressChart');
-
-const progressChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: weeklyData.labels,
-        datasets: [{
-            data: weeklyData.values,
-            borderColor: '#6a9c78',
-            backgroundColor: '#6a9c78',
-            borderWidth: 2,
-            tension: 0.35,
-            pointRadius: 4,
-            pointHoverRadius: 5
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        scales: {
-            y: {
-                min: 0,
-                max: 600,
-                ticks: {
-                    stepSize: 150
-                },
-                grid: {
-                    borderDash: [4, 4]
-                }
-            },
-            x: {
-                grid: {
-                    borderDash: [4, 4]
-                }
-            }
-        }
-    }
-});
-
-function renderHistory() {
-    historyList.innerHTML = '';
-
-    workoutsHistory.forEach((workout) => {
-        const item = document.createElement('div');
-        item.classList.add('history-item');
-
-        item.innerHTML = `
-            <div class="history-left">
-                <span class="history-icon">${workout.icon}</span>
-                <div class="history-text">
-                    <h3>${workout.type}</h3>
-                    <p>${workout.date}</p>
+        workouts.forEach(w => {
+            const item = document.createElement('div');
+            item.className = 'history-item';
+            item.innerHTML = `
+                <div class="history-left">
+                    <span class="history-icon">${activityIcons[w.activityType] || '⚡'}</span>
+                    <div class="history-text">
+                        <h3>${w.activityType}</h3>
+                        <p>📅 ${new Date(w.createdAt).toLocaleDateString()}</p>
+                    </div>
                 </div>
-            </div>
+                <div class="history-details">
+                    <strong>${w.duration} min</strong>
+                    <p>${w.distance || 0} km</p>
+                </div>
+            `;
+            historyList.appendChild(item);
+        });
 
-            <div class="history-details">
-                <strong>${workout.duration}</strong>
-                <p>${workout.details}</p>
-            </div>
-        `;
+        // 2. עדכון סטטיסטיקות
+        document.getElementById('totalWorkouts').textContent = stats.weekly.totalWorkouts || 0;
+        document.getElementById('caloriesBurned').textContent = stats.weekly.totalCalories || 0;
 
-        historyList.appendChild(item);
+        // 3. עדכון גרף
+        if (progressChart) {
+            progressChart.data.datasets[0].data = chartData.map(item => item.totalCalories);
+            progressChart.update();
+        }
+
+    } catch (err) { 
+        console.error("Error loading data:", err); 
+    }
+}
+
+// 4. אתחול הגרף ברגע שהדף נטען
+document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('progressChart').getContext('2d');
+    progressChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+            datasets: [{ 
+                data: [], 
+                borderColor: '#6a9c78', 
+                borderWidth: 2, 
+                tension: 0.35 
+            }]
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } } 
+        }
     });
-}
 
-function updateAnalytics(mode) {
-    const selectedData = mode === 'weekly' ? weeklyData : monthlyData;
-
-    progressChart.data.labels = selectedData.labels;
-    progressChart.data.datasets[0].data = selectedData.values;
-
-    progressChart.options.scales.y.max = mode === 'weekly' ? 600 : 2800;
-    progressChart.options.scales.y.ticks.stepSize = mode === 'weekly' ? 150 : 700;
-
-    progressChart.update();
-
-    totalWorkouts.textContent = selectedData.totalWorkouts;
-    avgDuration.textContent = selectedData.avgDuration;
-    caloriesBurned.textContent = selectedData.calories;
-    caloriesLabel.innerHTML = selectedData.caloriesText;
-
-    weeklyBtn.classList.toggle('active', mode === 'weekly');
-    monthlyBtn.classList.toggle('active', mode === 'monthly');
-}
-
-weeklyBtn.addEventListener('click', () => updateAnalytics('weekly'));
-monthlyBtn.addEventListener('click', () => updateAnalytics('monthly'));
-
-renderHistory();
-updateAnalytics('weekly');
+    loadData();
+});

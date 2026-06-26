@@ -113,6 +113,27 @@ const getWorkoutStats = async (req, res) => {
     }
 };
 
+const getWeeklyChartData = async (req, res) => {
+    try {
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+        const chartData = await Workout.aggregate([
+            { $match: { createdAt: { $gte: sevenDaysAgo } } },
+            { 
+                $group: { 
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+                    totalCalories: { $sum: "$calories" }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+        res.status(200).json(chartData);
+    } catch (error) {
+        res.status(500).json({ message: 'Error', error: error.message });
+    }
+};
+
 // מייצאים את הפונקציות כדי שהראוטס יוכלו להשתמש בהן
 module.exports = {
     createWorkout,
@@ -120,5 +141,6 @@ module.exports = {
     updateWorkout,
     deleteWorkout,
     getWorkoutsByType, 
-    getWorkoutStats   
+    getWorkoutStats,
+    getWeeklyChartData   
 };

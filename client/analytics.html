@@ -22,44 +22,38 @@
 
         <hr class="header-divider">
 
-        <main class="analytics-main">
-            <section class="analytics-card">
-                <div class="analytics-card-header">
-                    <h2>Progress<br>Analytics</h2>
+        <main class="analytics-wrapper">
+         <section class="analytics-card">
+        <div class="analytics-card-header">
+            <h2>Progress<br>Analytics</h2>
+            <div class="toggle-buttons">
+                <button id="weeklyBtn" class="toggle-btn active">Weekly</button>
+                <button id="monthlyBtn" class="toggle-btn">Monthly</button>
+            </div>
+        </div>
+        <div class="chart-wrapper">
+            <canvas id="progressChart"></canvas>
+        </div>
+        <div class="analytics-stats">
+            <div class="analytics-stat">
+                <span id="totalWorkouts">0</span>
+                <p>Total<br>Workouts</p>
+            </div>
+            <div class="analytics-stat">
+                <span id="avgDuration">—</span>
+                <p>Avg Duration</p>
+            </div>
+            <div class="analytics-stat">
+                <span id="caloriesBurned">0</span>
+                <p>average calories<br>burned</p>
+            </div>
+        </div>
+    </section>
 
-                    <div class="toggle-buttons">
-                        <button id="weeklyBtn" class="toggle-btn active">Weekly</button>
-                        <button id="monthlyBtn" class="toggle-btn">Monthly</button>
-                    </div>
-                </div>
-
-                <div class="chart-wrapper">
-                    <canvas id="progressChart"></canvas>
-                </div>
-
-                <div class="analytics-stats">
-                    <div class="analytics-stat">
-                        <span id="totalWorkouts">7</span>
-                        <p>Total<br>Workouts</p>
-                    </div>
-
-                    <div class="analytics-stat">
-                        <span id="avgDuration">45</span>
-                        <p>Avg Duration</p>
-                    </div>
-
-                    <div class="analytics-stat">
-                        <span id="caloriesBurned">537</span>
-                        <p id="caloriesLabel">average calories<br>burned</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="history-section">
-                <h2><span>▣</span> Workout History</h2>
-
-                <div id="historyList" class="history-list"></div>
-            </section>
+    <section class="history-section">
+        <h2><span>📅</span> Workout History</h2>
+        <div id="historyList" class="history-list"></div>
+     </section>
         </main>
 
         <nav class="bottom-nav">

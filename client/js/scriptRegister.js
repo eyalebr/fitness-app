@@ -62,7 +62,7 @@ registerForm.addEventListener('submit', async function(event) {
                 
                 // המתנה של שנייה וחצי כדי שהמשתמש יקרא את ההודעה, ואז מעבר ללוגין
                 setTimeout(() => {
-                    window.location.href = 'login.html';
+                    window.location.href ='/home.html';
                 }, 1500);
             } else {
                 serverMessage.textContent = data.message || 'Registration failed. Try again.';

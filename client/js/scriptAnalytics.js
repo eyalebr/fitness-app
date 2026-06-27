@@ -1,10 +1,29 @@
-// הגדרת משתנה הגרף באופן גלובלי
 let progressChart;
 
-// פונקציה לטעינת נתונים מהשרת
+// פונקציה לטעינת נתונים לפי סוג (שבועי/חודשי)
+async function switchView(view) {
+    // עדכון כפתורים
+    document.getElementById('weeklyBtn').classList.toggle('active', view === 'weekly');
+    document.getElementById('monthlyBtn').classList.toggle('active', view === 'monthly');
+
+    // משיכת נתונים לפי סוג
+    const chartUrl = view === 'weekly' ? 'http://localhost:3000/api/workouts/weekly-chart' : 'http://localhost:3000/api/workouts/monthly-chart';
+    const res = await fetch(chartUrl);
+    const data = await res.json();
+
+    // עדכון הגרף
+    if (progressChart) {
+        progressChart.data.labels = view === 'weekly' 
+            ? ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'] 
+            : ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+        
+        progressChart.data.datasets[0].data = data.map(item => item.totalCalories);
+        progressChart.update();
+    }
+}
+
 async function loadData() {
     try {
-        // משיכת נתונים מהשרת במקביל לביצועים מהירים
         const [workoutsRes, chartRes, statsRes] = await Promise.all([
             fetch('http://localhost:3000/api/workouts'),
             fetch('http://localhost:3000/api/workouts/weekly-chart'),
@@ -15,16 +34,10 @@ async function loadData() {
         const chartData = await chartRes.json();
         const stats = await statsRes.json();
 
-        // 1. עדכון רשימת האימונים עם האייקונים והתאריך
+        // עדכון היסטוריה
         const historyList = document.getElementById('historyList');
         historyList.innerHTML = '';
-        
-        const activityIcons = {
-            'Running': '🏃',
-            'Walking': '🚶',
-            'Cycling': '🚴',
-            'Custom': '⚡'
-        };
+        const activityIcons = { 'Running': '🏃', 'Walking': '🚶', 'Cycling': '🚴', 'Custom': '⚡' };
 
         workouts.forEach(w => {
             const item = document.createElement('div');
@@ -45,40 +58,33 @@ async function loadData() {
             historyList.appendChild(item);
         });
 
-        // 2. עדכון סטטיסטיקות
+        // עדכון סטטיסטיקות
         document.getElementById('totalWorkouts').textContent = stats.weekly.totalWorkouts || 0;
         document.getElementById('caloriesBurned').textContent = stats.weekly.totalCalories || 0;
-
-        // 3. עדכון גרף
+        document.getElementById('avgDuration').textContent = (stats.weekly.avgDuration || 0) + ' min';
+        
+        // אתחול גרף ראשוני
         if (progressChart) {
             progressChart.data.datasets[0].data = chartData.map(item => item.totalCalories);
             progressChart.update();
         }
 
-    } catch (err) { 
-        console.error("Error loading data:", err); 
-    }
+    } catch (err) { console.error("Error:", err); }
 }
 
-// 4. אתחול הגרף ברגע שהדף נטען
 document.addEventListener('DOMContentLoaded', () => {
+    // מאזינים לכפתורים
+    document.getElementById('weeklyBtn').addEventListener('click', () => switchView('weekly'));
+    document.getElementById('monthlyBtn').addEventListener('click', () => switchView('monthly'));
+
     const ctx = document.getElementById('progressChart').getContext('2d');
     progressChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
-            datasets: [{ 
-                data: [], 
-                borderColor: '#6a9c78', 
-                borderWidth: 2, 
-                tension: 0.35 
-            }]
+            datasets: [{ data: [], borderColor: '#6a9c78', borderWidth: 2, tension: 0.35 }]
         },
-        options: { 
-            responsive: true, 
-            maintainAspectRatio: false, 
-            plugins: { legend: { display: false } } 
-        }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
     });
 
     loadData();

@@ -50,7 +50,7 @@ main::-webkit-scrollbar-track {
     background: transparent; 
 }
 main::-webkit-scrollbar-thumb {
-    background-color: #b0b0b0; 
+    background-color: #6a9c78; 
     border-radius: 10px; 
 }
 

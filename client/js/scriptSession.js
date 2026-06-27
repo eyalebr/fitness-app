@@ -175,16 +175,31 @@ document.getElementById('stopBtn').addEventListener('click', function() {
 });
 
 document.getElementById('doneBtn').addEventListener('click', async function() {
+    // 1. שאיבת ה-ID מה-localStorage של המשתמש המחובר
+    const userData = JSON.parse(localStorage.getItem('user'));
+    // תיקון: תמיכה גם בפורמט userData.user וגם ב-userData ישיר
+    const userId = userData.user ? userData.user._id : userData._id;
+
+    if (!userId) {
+        alert("Error: User not logged in.");
+        return;
+    }
+
+    const calculatedSteps = Math.floor(currentDistance * 1000);
+
     const workoutData = {
-        userId: "6a3a01034eabc578117a7fe3", // ה-ID שאתה משתמש בו
+        userId: userId, // כאן התיקון הקריטי
         activityType: currentWorkoutType,
-        title: `${currentWorkoutType} Session`, // הוספנו title כדי לספק את דרישת השרת
-        description: "Outdoor workout session", // הוספנו description
+        title: `${currentWorkoutType} Session`,
+        description: "Outdoor workout session",
         duration: Math.floor(seconds / 60),
-        calories: currentCalories
+        calories: currentCalories,
+        distance: parseFloat(currentDistance.toFixed(2)), // הוספנו גם מרחק כי זה חשוב לסטטיסטיקה
+        steps: calculatedSteps
     };
 
     try {
+        // 2. הוספת הפורט הנכון (3000) כדי לתקשר עם השרת
         const response = await fetch('/api/workouts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -192,14 +207,16 @@ document.getElementById('doneBtn').addEventListener('click', async function() {
         });
 
         if (response.ok) {
-            window.location.href = 'home.html'; // וודא שזה חוזר לדף הבית
+            window.location.href = 'home.html';
         } else {
-            alert('Failed to save workout.');
+            alert('Failed to save workout. Server responded with error.');
         }
     } catch (error) {
         console.error('Error saving workout:', error);
+        alert('Error connecting to server.');
     }
 });
+
 
 // אתחול העמוד
 document.addEventListener('DOMContentLoaded', () => {

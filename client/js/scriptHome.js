@@ -24,9 +24,20 @@ function updateGoalsDisplay() {
 }
 
 // פונקציה לשליפת הנתונים מהשרת (לא עוצרת את טעינת היעדים יותר)
+// פונקציה לשליפת הנתונים מהשרת עם סינון לפי userId
 async function fetchWorkoutStats() {
     try {
-        const response = await fetch('/api/workouts/stats/summary', {
+        // 1. קבלת ה-ID מה-localStorage
+        const userData = JSON.parse(localStorage.getItem('user'));
+        const userId = userData ? (userData.user ? userData.user._id : userData._id) : null;
+
+        if (!userId) {
+            console.log("User not logged in, skipping stats fetch.");
+            return;
+        }
+
+        // 2. הוספת ה-userId לכתובת ה-API
+        const response = await fetch(`/api/workouts/stats/summary?userId=${userId}`, {
             headers: { 'Cache-Control': 'no-cache' }
         });
         
@@ -34,7 +45,7 @@ async function fetchWorkoutStats() {
         
         const data = await response.json();
 
-        // 1. עדכון יומי (Daily Summary)
+        // 3. עדכון הנתונים (אותו קוד שלך)
         if (data.daily) {
             const steps = data.daily.steps || 0;
             const calories = data.daily.calories || 0;
@@ -44,20 +55,18 @@ async function fetchWorkoutStats() {
             document.getElementById('daily-calories').textContent = calories;
             document.getElementById('daily-time').innerHTML = `${duration} <span class="unit">min</span>`;
             
-            // פסי ההתקדמות מחשבים אחוזים לפי היעדים החדשים
             document.getElementById('progress-steps').style.width = `${Math.min((steps / currentStepGoal) * 100, 100)}%`;
             document.getElementById('progress-calories').style.width = `${Math.min((calories / currentCalGoal) * 100, 100)}%`;
             document.getElementById('progress-time').style.width = `${Math.min((duration / 60) * 100, 100)}%`;
         }
 
-        // 2. עדכון שבועי
         if (data.weekly) {
             document.getElementById('weekly-workouts').textContent = data.weekly.totalWorkouts || 0;
             document.getElementById('weekly-distance').textContent = `${(data.weekly.totalDistance || 0).toFixed(1)} km`;
             document.getElementById('weekly-calories').textContent = `${data.weekly.totalCalories || 0} kcal`;
         }
     } catch (error) {
-        console.log('Stats sync paused (no workouts found or server error).');
+        console.log('Stats sync error:', error);
     }
 }
 

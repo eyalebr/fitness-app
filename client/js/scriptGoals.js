@@ -29,6 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ביטול
     cancelBtn.addEventListener('click', (event) => {
         event.preventDefault();
-        window.location.href = 'home.html';
+        window.location.href = 'profile.html';
     });
 });

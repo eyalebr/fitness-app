@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 // אנחנו מגדירים כאן את ה"סכמה" (Schema) - התבנית שלפיה כל אימון יישמר במסד הנתונים
 const workoutSchema = new mongoose.Schema({
+    userId: {
+        type: String, // (או mongoose.Schema.Types.ObjectId אם ככה הגדרת)
+        required: true
+    },
     title: {
         type: String, // סוג הנתון הוא טקסט
         required: true // חובה להזין כותרת, אי אפשר לשמור אימון בלי זה

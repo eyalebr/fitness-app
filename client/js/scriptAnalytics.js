@@ -8,7 +8,9 @@ async function switchView(view) {
 
     // משיכת נתונים לפי סוג
     const chartUrl = view === 'weekly' ? '/api/workouts/weekly-chart' : '/api/workouts/monthly-chart';
-    const res = await fetch(chartUrl);
+    const userData = JSON.parse(localStorage.getItem('user'));
+    const userId = userData.user ? userData.user._id : userData._id;
+    const res = await fetch(`${chartUrl}?userId=${userId}`);
     const data = await res.json();
 
     // עדכון הגרף
@@ -24,10 +26,14 @@ async function switchView(view) {
 
 async function loadData() {
     try {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        const userId = userData.user ? userData.user._id : userData._id;
+
+        // הוספת ה-userId לכל הכתובות ב-fetch
         const [workoutsRes, chartRes, statsRes] = await Promise.all([
-            fetch('/api/workouts'),
-            fetch('/api/workouts/weekly-chart'),
-            fetch('/api/workouts/stats/summary')
+            fetch(`/api/workouts?userId=${userId}`),
+            fetch(`/api/workouts/weekly-chart?userId=${userId}`),
+            fetch(`/api/workouts/stats/summary?userId=${userId}`)
         ]);
 
         const workouts = await workoutsRes.json();

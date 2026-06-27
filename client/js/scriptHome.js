@@ -1,14 +1,38 @@
-// פונקציה ראשית לשליפת ועדכון נתונים מהשרת
+// משתנים גלובליים לשמירת היעדים (ברירת מחדל: 10,000 ו-600)
+let currentStepGoal = 10000;
+let currentCalGoal = 600;
+
+// פונקציה חדשה שרצה מיד ודואגת רק ליעדים!
+function updateGoalsDisplay() {
+    const savedGoals = JSON.parse(localStorage.getItem('userGoals'));
+    
+    if (savedGoals) {
+        if (savedGoals.steps) currentStepGoal = savedGoals.steps;
+        if (savedGoals.calories) currentCalGoal = savedGoals.calories;
+    }
+
+    // מעדכן את הטקסט במסך
+    const stepsGoalElement = document.getElementById('homeStepsGoal');
+    if (stepsGoalElement) {
+        stepsGoalElement.textContent = `Goal: ${Number(currentStepGoal).toLocaleString()}`;
+    }
+    
+    const caloriesGoalElement = document.getElementById('homeCaloriesGoal');
+    if (caloriesGoalElement) {
+        caloriesGoalElement.textContent = `Goal: ${Number(currentCalGoal).toLocaleString()}`;
+    }
+}
+
+// פונקציה לשליפת הנתונים מהשרת (לא עוצרת את טעינת היעדים יותר)
 async function fetchWorkoutStats() {
     try {
-        const response = await fetch('http://localhost:3000/api/workouts/stats/summary', {
+        const response = await fetch('/api/workouts/stats/summary', {
             headers: { 'Cache-Control': 'no-cache' }
         });
         
         if (!response.ok) throw new Error('Failed to fetch stats');
         
         const data = await response.json();
-        console.log("Stats received from server:", data); 
 
         // 1. עדכון יומי (Daily Summary)
         if (data.daily) {
@@ -20,20 +44,20 @@ async function fetchWorkoutStats() {
             document.getElementById('daily-calories').textContent = calories;
             document.getElementById('daily-time').innerHTML = `${duration} <span class="unit">min</span>`;
             
-            // עדכון פסי התקדמות (Progress bars)
-            document.getElementById('progress-steps').style.width = `${Math.min((steps / 10000) * 100, 100)}%`;
-            document.getElementById('progress-calories').style.width = `${Math.min((calories / 600) * 100, 100)}%`;
+            // פסי ההתקדמות מחשבים אחוזים לפי היעדים החדשים
+            document.getElementById('progress-steps').style.width = `${Math.min((steps / currentStepGoal) * 100, 100)}%`;
+            document.getElementById('progress-calories').style.width = `${Math.min((calories / currentCalGoal) * 100, 100)}%`;
             document.getElementById('progress-time').style.width = `${Math.min((duration / 60) * 100, 100)}%`;
         }
 
-        // 2. עדכון שבועי (Weekly Progress)
+        // 2. עדכון שבועי
         if (data.weekly) {
             document.getElementById('weekly-workouts').textContent = data.weekly.totalWorkouts || 0;
             document.getElementById('weekly-distance').textContent = `${(data.weekly.totalDistance || 0).toFixed(1)} km`;
             document.getElementById('weekly-calories').textContent = `${data.weekly.totalCalories || 0} kcal`;
         }
     } catch (error) {
-        console.error('Error fetching stats:', error);
+        console.log('Stats sync paused (no workouts found or server error).');
     }
 }
 
@@ -126,7 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
         dateElement.textContent = new Date().toLocaleDateString('en-US', options);
     }
 
+    // 1. קודם כל נטען את היעדים שלנו!
+    updateGoalsDisplay();
+    
+    // 2. נמשוך נתונים מהשרת
     fetchWorkoutStats();
+    
+    // 3. נטען את המפה
     initMap();
     
     // רענון אוטומטי כל 30 שניות

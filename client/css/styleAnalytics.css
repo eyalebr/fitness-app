@@ -1,28 +1,13 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+/* --- איפוס בסיסי ורקע אפור מסביב (כמו בשאר הדפים) --- */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+body { background-color: #f1eeee; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-top: 20px; }
 
-body {
-    background-color: #f1eeee; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding-top: 20px;
-}
-
+/* השלד החיצוני - זהה לכל הדפים */
 .app-container {
-    width: 100%;
-    max-width: 500px;
-    background-color: #ffffff;
-    border-radius: 35px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
-    overflow: hidden; 
-    display: flex;
-    flex-direction: column;
+    width: 100%; max-width: 500px; background-color: #ffffff;
+    border-radius: 35px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden; display: flex; flex-direction: column;
+    height: 95vh; position: relative; margin: 10px auto;
 }
 
 .analytics-header {
@@ -180,7 +165,7 @@ body {
 #historyList {
    overflow-y: auto;
     max-height: 250px;
-    padding: 5px 50px 15px 50px; /* זה יוצר מרווח מכל הצדדים בתוך התיבה */
+    padding: 5px 50px 5px 50px; /* זה יוצר מרווח מכל הצדדים בתוך התיבה */
     display: flex;
     flex-direction: column;
     gap: 25px; /* זה יוצר מרווח שווה ומדויק בין כל פריט לפריט */
@@ -235,26 +220,33 @@ body {
     color: #1a1a1a;
 }
 
+/* --- תפריט ניווט תחתון --- */
 .bottom-nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 100%;
     background-color: #ffffff;
-    padding: 20px 0;
+    padding: 15px 0 20px 0;
     border-top: 1px solid #f0f0f0;
     box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03); 
+    margin-top: auto; 
+    flex-shrink: 0; 
 }
 
 .nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
     color: #a0a0a0;
     font-size: 13px;
     font-weight: 500;
     flex: 1;
+    background-color: transparent;
+    box-shadow: none; 
+    border-radius: 0;
 }
 
 .nav-item.active {
@@ -262,6 +254,6 @@ body {
 }
 
 .nav-icon {
-    font-size: 35px;
-    margin-bottom: 3px;
+    font-size: 30px; 
+    margin-bottom: 5px;
 }

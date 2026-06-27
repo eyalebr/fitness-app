@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. שאיבת נתוני המשתמש מ-localStorage כדי להציג מידע דינמי אמיתי!
+    // 1. שאיבת נתוני המשתמש מ-localStorage
     const userDataString = localStorage.getItem('user');
     
     if (userDataString) {
         const userData = JSON.parse(userDataString);
-        // אם הנתונים שמורים בתוך אובייקט user (כמו שעשינו בהתחברות)
         const user = userData.user ? userData.user : userData;
         
         if (user.fullName && user.email) {
@@ -14,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('detailEmail').textContent = user.email;
         }
     } else {
-        // אם אין משתמש מחובר - מעיפים אותו למסך הלוגין
         window.location.href = 'index.html';
     }
 
@@ -30,11 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('main-profile-view').style.display = 'block';
     });
 
-    // 3. פעולת התנתקות (Logout) מלאה שעומדת בדרישות הפרויקט
+    // --- התוספת שלנו: מעבר לעמוד Goals ---
+    document.getElementById('btnGoals').addEventListener('click', () => {
+        window.location.href = 'goals.html';
+    });
+
+    // --- התוספת שלנו: מעבר לעמוד Settings ---
+    document.getElementById('btnSettings').addEventListener('click', () => {
+        window.location.href = 'settings.html';
+    });
+
+    // 3. פעולת התנתקות (Logout)
     document.getElementById('btnLogout').addEventListener('click', () => {
-        // מחיקת נתוני המשתמש מהדפדפן
         localStorage.removeItem('user');
-        // העברה לעמוד ההתחברות
         window.location.href = 'index.html';
     });
 });

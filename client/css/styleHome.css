@@ -1,34 +1,20 @@
-/* --- איפוס בסיסי לכל האלמנטים --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+/* --- איפוס בסיסי ורקע אפור מסביב (כמו בשאר הדפים) --- */
+* { margin: 0;
+     padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+body { background-color: #f1eeee; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-top: 20px; }
 
-/* --- רקע הדף הכללי --- */
-body {
-    background-color: #f1eeee; 
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    min-height: 100vh;
-    padding-top: 20px;
-}
-
-/* --- מעטפת האפליקציה (שומרת על גובה קבוע כמו בשאר הדפים) --- */
+/* השלד החיצוני - זהה לכל הדפים */
 .app-container {
     width: 100%;
-    max-width: 500px;
-    background-color: #ffffff;
-    border-radius: 35px; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+     max-width: 500px;
+      background-color: #ffffff;
+    border-radius: 35px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     overflow: hidden; 
-    display: flex;
+    display: flex; 
     flex-direction: column;
-    height: 1000px; 
-    max-height: 95vh;
-    position: relative; /* הוסף חובה עבור המפה במסך מלא */
+    max-height: 100vh; 
+    position: relative; 
+    margin: 10px auto;
 }
 
 header {

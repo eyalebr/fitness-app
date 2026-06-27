@@ -1,11 +1,21 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+/* --- איפוס בסיסי ורקע אפור מסביב (כמו בשאר הדפים) --- */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
 body { background-color: #f1eeee; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-top: 20px; }
-.app-container { width: 100%; max-width: 500px; background-color: #ffffff; border-radius: 35px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); overflow: hidden; display: flex; flex-direction: column; height: 750px; max-height: 95vh; }
+
+/* השלד החיצוני - זהה לכל הדפים */
+.app-container {
+    width: 100%; max-width: 500px; background-color: #ffffff;
+    border-radius: 35px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden; display: flex; flex-direction: column;
+    height: 95vh; position: relative; margin: 10px auto;
+}
 
 /* Header */
 .header { display: flex; align-items: center; padding: 40px 30px 20px 30px; background-color: #ffffff; }
 .back-btn { text-decoration: none; color: #333; font-size: 35px; margin-right: 15px; transform: translateY(-3px); line-height: 1; }
 .header h2 { font-size: 20px; color: #333; font-weight: bold; }
+
+.header-divider {border: none;border-top: 3px solid #434242;margin: 20px 0;box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5)}
 
 /* Main Content */
 .notifications-main { padding: 20px; flex-grow: 1; overflow-y: auto; background-color: #ffffff; }

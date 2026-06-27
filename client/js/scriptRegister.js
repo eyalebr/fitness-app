@@ -47,7 +47,7 @@ registerForm.addEventListener('submit', async function(event) {
             submitBtn.textContent = 'Registering...';
             submitBtn.disabled = true;
 
-            const response = await fetch('http://localhost:3000/api/users/register', {
+            const response = await fetch('/api/users/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ fullName, birthDate, email, password })
@@ -59,6 +59,11 @@ registerForm.addEventListener('submit', async function(event) {
                 // במקום Alert - הצגת הודעה מעוצבת במסך
                 serverMessage.textContent = 'Registration successful! Redirecting...';
                 serverMessage.classList.add('success');
+
+                localStorage.removeItem('user');
+                localStorage.removeItem('userGoals');
+                localStorage.setItem('user', JSON.stringify(data));
+
                 
                 // המתנה של שנייה וחצי כדי שהמשתמש יקרא את ההודעה, ואז מעבר ללוגין
                 setTimeout(() => {

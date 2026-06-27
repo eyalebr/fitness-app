@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
         
         await newUser.save();
 
-        res.status(201).json({ message: 'User registered successfully!', user: { fullName: newUser.fullName, email: newUser.email } });
+        res.status(201).json({ message: 'User registered successfully!', user: { _id: newUser._id ,fullName: newUser.fullName, email: newUser.email } });
     } catch (error) {
         console.error('Error in register:', error);
         res.status(500).json({ message: 'Server error during registration.' });
@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
             return res.status(400).json({ message: 'Invalid email or password.' });
         }
 
-        res.status(200).json({ message: 'Login successful!', user: { fullName: user.fullName, email: user.email } });
+        res.status(200).json({ message: 'Login successful!', user: { _id: user._id, fullName: user.fullName, email: user.email } });
     } catch (error) {
         console.error('Error in login:', error);
         res.status(500).json({ message: 'Server error during login.' });
@@ -68,7 +68,7 @@ exports.updatePassword = async (req, res) => {
         const updatedUser = await User.findByIdAndUpdate(
             userId, 
             { password: hashedPassword }, 
-            { new: true }
+            { returnDocument: 'after' }
         );
 
         if (!updatedUser) {

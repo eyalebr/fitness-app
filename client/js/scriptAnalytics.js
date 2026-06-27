@@ -7,7 +7,7 @@ async function switchView(view) {
     document.getElementById('monthlyBtn').classList.toggle('active', view === 'monthly');
 
     // משיכת נתונים לפי סוג
-    const chartUrl = view === 'weekly' ? 'http://localhost:3000/api/workouts/weekly-chart' : 'http://localhost:3000/api/workouts/monthly-chart';
+    const chartUrl = view === 'weekly' ? '/api/workouts/weekly-chart' : '/api/workouts/monthly-chart';
     const res = await fetch(chartUrl);
     const data = await res.json();
 
@@ -25,9 +25,9 @@ async function switchView(view) {
 async function loadData() {
     try {
         const [workoutsRes, chartRes, statsRes] = await Promise.all([
-            fetch('http://localhost:3000/api/workouts'),
-            fetch('http://localhost:3000/api/workouts/weekly-chart'),
-            fetch('http://localhost:3000/api/workouts/stats/summary')
+            fetch('/api/workouts'),
+            fetch('/api/workouts/weekly-chart'),
+            fetch('/api/workouts/stats/summary')
         ]);
 
         const workouts = await workoutsRes.json();

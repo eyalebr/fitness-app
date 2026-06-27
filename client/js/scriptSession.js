@@ -185,7 +185,7 @@ document.getElementById('doneBtn').addEventListener('click', async function() {
     };
 
     try {
-        const response = await fetch('http://localhost:3000/api/workouts', {
+        const response = await fetch('/api/workouts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(workoutData)

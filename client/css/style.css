@@ -1,76 +1,82 @@
-/* --- איפוס בסיסי - נלקח מהעיצוב שלך --- */
+/* =========================================
+   Basic Reset & Base Styles
+   ========================================= */
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* --- רקע הדף הכללי --- */
 body {
-    background-color: #f1eeee; 
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: center; 
     min-height: 100vh;
     padding: 20px;
+    background-color: #f1eeee; 
 }
 
-/* --- כרטיסיית ההתחברות המרכזית  --- */
+/* =========================================
+   Layout Containers
+   ========================================= */
 .login-container {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 500px;
+    padding: 40px 30px;
     background-color: #f1eeee; 
     border-radius: 35px; 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
-    padding: 40px 30px;
-    display: flex;
-    flex-direction: column;
 }
 
-/* --- אזור הלוגו והכותרות --- */
+/* =========================================
+   Header Section
+   ========================================= */
 .header-section {
-    text-align: center;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .logo-icon {
-    width: 65px;
-    height: 65px;
-    background-color: #6a9c78; 
-    border-radius: 50%;
-    margin: 0 auto 15px auto;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 15px auto;
+    background-color: #6a9c78; 
+    border-radius: 50%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
 }
 
-
 .header-section h1 {
-    font-size: 24px;
-    color: #1a1a1a;
     margin-bottom: 30px;
+    color: #1a1a1a;
+    font-size: 24px;
     font-weight: bold;
 }
 
 .header-section p {
-    font-size: 15px;
     color: #888;
+    font-size: 15px;
 }
 
-/* --- עיצוב השדות (Inputs) --- */
+/* =========================================
+   Form Inputs & Controls
+   ========================================= */
 .input-group {
-    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .input-group label {
-    font-size: 14px;
-    color: #333;
     margin-bottom: 8px;
+    color: #333;
+    font-size: 14px;
     font-weight: 500;
 }
 
@@ -79,75 +85,74 @@ body {
 .input-group input[type="email"],
 .input-group input[type="password"] {
     padding: 15px;
+    color: #1a1a1a;
+    font-size: 16px;
+    background-color: #ffffff;
     border: none;
     border-radius: 12px; 
-    background-color: #ffffff;
-    font-size: 16px;
-    color: #1a1a1a;
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); 
 }
 
-/* שדה "זכור אותי" */
+/* Checkbox Group (Remember Me) */
 .checkbox-group {
+    display: flex;
     flex-direction: row;
     align-items: center;
     margin-bottom: 30px;
 }
 
 .checkbox-group input {
-    margin-right: 10px;
     width: 18px;
     height: 18px;
+    margin-right: 10px;
 }
 
 .checkbox-group label {
     margin-bottom: 0;
-    font-size: 14px;
     color: #888;
+    font-size: 14px;
     font-weight: normal;
 }
 
-.error-message {
-    color: #d9534f;
-    font-size: 13px;
-    margin-top: 5px;
-    min-height: 18px;
-}
-
-/* --- כפתור ראשי - מועתק 1:1 מהקוד שלך --- */
+/* =========================================
+   Buttons
+   ========================================= */
 .primary-btn {
-    width: 100%;
-    background-color: #6a9c78;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     margin-top: 10px;
     margin-bottom: 20px;
+    padding: 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #6a9c78;
+    border: none;
+    border-radius: 25px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
-    transition: 0.2s;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .primary-btn:active {
-    transform: scale(0.98); /* אפקט לחיצה קטן */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transform: scale(0.98);
 }
 
-/* --- קישורים בתחתית --- */
+/* =========================================
+   Footer Links
+   ========================================= */
 .footer-links {
-    text-align: center;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    text-align: center;
 }
 
-.footer-links a, .footer-links p {
+.footer-links a, 
+.footer-links p {
     font-size: 14px;
 }
 
@@ -166,18 +171,29 @@ body {
     text-decoration: none;
 }
 
-/* --- הודעות שרת (במקום alert) --- */
+/* =========================================
+   System & Error Messages
+   ========================================= */
+.error-message {
+    min-height: 18px;
+    margin-top: 5px;
+    color: #d9534f;
+    font-size: 13px;
+}
+
 .server-message {
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
+    min-height: 20px;
     margin-top: 10px;
     margin-bottom: 15px;
-    min-height: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
 }
+
 .server-message.success {
-    color: #6a9c78; /* ירוק הצלחה */
+    color: #6a9c78;
 }
+
 .server-message.error {
-    color: #d9534f; /* אדום שגיאה */
+    color: #d9534f;
 }

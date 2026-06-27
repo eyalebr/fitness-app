@@ -1,73 +1,164 @@
-/* --- איפוס בסיסי ורקע אפור מסביב (כמו בשאר הדפים) --- */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-body { background-color: #f1eeee; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-top: 20px; }
+/* =========================================
+   Basic Reset & Base Styles
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
 
-/*השלד החיצוני */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 20px;
+    background-color: #f1eeee; 
+}
+
+/* =========================================
+   App Container (Main Layout)
+   ========================================= */
 .app-container {
+    position: relative; 
+    display: flex; 
+    flex-direction: column;
+    flex-shrink: 0;
     width: 100%;
     max-width: 500px;
     height: 1000px;
     min-height: 1000px; 
-    flex-shrink: 0;
+    margin: 10px auto;
     background-color: #ffffff;
     border-radius: 35px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     overflow: hidden; 
-    display: flex; 
-    flex-direction: column;
-    position: relative; 
-    margin: 10px auto;
 }
 
-.header-divider {border: none;border-top: 3px solid #434242;margin: 20px 0;box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5)}
+/* =========================================
+   Goals Header & Main Content
+   ========================================= */
+.goals-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 50px 20px;
+}
 
-/* עיצוב הפנים */
-.goals-header { padding: 50px 20px; display: flex; align-items: center; gap: 20px; }
-.goals-main { padding: 50px 30px 20px 30px; flex-grow: 1; }
+.header-divider {
+    margin: 20px 0;
+    border: none;
+    border-top: 3px solid #434242;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
 
+.goals-main {
+    flex-grow: 1;
+    padding: 50px 30px 20px 30px;
+}
+
+/* =========================================
+   App Card & Form Elements
+   ========================================= */
 .app-card {
-    background-color: #f5f5f5; border-radius: 20px; padding: 25px;
+    padding: 25px;
+    background-color: #f5f5f5;
+    border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.edit-label { display: block; margin: 20px 0 8px 0; font-size: 14px; font-weight: 600; color: #333; }
+.edit-label {
+    display: block;
+    margin: 20px 0 8px 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
 
-/* סידור האינפוט והיחידות באותה שורה */
-.input-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-.edit-input { flex-grow: 1; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 15px; background-color: #e6e6e6; outline: none; }
-.unit { font-size: 13px; color: #888; font-weight: 500; min-width: 40px; }
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
 
-.button-group { display: flex; gap: 10px; margin-top: 30px; }
-.secondary-btn { flex: 1; padding: 15px; border-radius: 15px; border: 1px solid #ddd; background: #e6e6e6; font-weight: 600; cursor: pointer; color: #333; }
-.confirm-btn { flex: 1; padding: 15px; border-radius: 15px; border: none; background: #6a9c78; color: white; font-weight: 600; cursor: pointer; }
+.edit-input {
+    flex-grow: 1;
+    padding: 12px;
+    font-size: 15px;
+    background-color: #e6e6e6;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+}
 
-/* --- תפריט ניווט תחתון --- */
+.unit {
+    min-width: 40px;
+    color: #888;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* =========================================
+   Buttons
+   ========================================= */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.secondary-btn,
+.confirm-btn {
+    flex: 1;
+    padding: 15px;
+    font-weight: 600;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.secondary-btn {
+    color: #333;
+    background: #e6e6e6;
+    border: 1px solid #ddd;
+}
+
+.confirm-btn {
+    color: white;
+    background: #6a9c78;
+    border: none;
+}
+
+/* =========================================
+   Bottom Navigation
+   ========================================= */
 .bottom-nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-shrink: 0; 
     width: 100%;
-    background-color: #ffffff;
+    margin-top: auto; 
     padding: 15px 0 20px 0;
+    background-color: #ffffff;
     border-top: 1px solid #f0f0f0;
     box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03); 
-    margin-top: auto; 
-    flex-shrink: 0; 
 }
 
 .nav-item {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    text-decoration: none;
+    align-items: center;
+    flex: 1;
     color: #a0a0a0;
     font-size: 13px;
     font-weight: 500;
-    flex: 1;
+    text-decoration: none;
     background-color: transparent;
-    box-shadow: none; 
     border-radius: 0;
+    box-shadow: none; 
 }
 
 .nav-item.active {
@@ -75,6 +166,6 @@ body { background-color: #f1eeee; display: flex; flex-direction: column; align-i
 }
 
 .nav-icon {
-    font-size: 30px; 
     margin-bottom: 5px;
+    font-size: 30px; 
 }

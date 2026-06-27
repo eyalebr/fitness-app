@@ -1,80 +1,376 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+/* =========================================
+   Basic Reset & Base Styles
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
 body {
-    background-color: #f1eeee; 
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
     padding-top: 20px;
+    background-color: #f1eeee; 
 }
-/*השלד החיצוני */
+
+/* =========================================
+   App Container (Main Layout)
+   ========================================= */
 .app-container {
+    position: relative; 
+    display: flex; 
+    flex-direction: column;
+    flex-shrink: 0;
     width: 100%;
     max-width: 500px;
     height: 1000px;
     min-height: 1000px; 
-    flex-shrink: 0;
+    margin: 10px auto;
     background-color: #ffffff;
     border-radius: 35px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     overflow: hidden; 
-    display: flex; 
-    flex-direction: column;
-    position: relative; 
-    margin: 10px auto;
 }
 
-/* Header */
-.workout-header { display: flex; align-items: center; padding: 30px 20px 10px; }
-.back-btn { text-decoration: none; color: #1a1a1a; font-size: 20px; font-weight: bold; }
-.workout-header h2 { font-size: 25px; color: #333; margin-left: 20px; } 
-.small-logo { width: 70px; height: 70px; background-color: #6a9c78; border-radius: 50%; display: flex; justify-content: center; align-items: center; overflow: hidden; margin-left: auto; } 
-.small-logo img { width: 100%; height: 100%; object-fit: contain; }
-.header-divider {border: none;border-top: 3px solid #434242;margin: 20px 0;box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5)}
+/* =========================================
+   Header Section
+   ========================================= */
+.workout-header { 
+    display: flex; 
+    align-items: center; 
+    padding: 30px 20px 10px; 
+}
 
-/* Active Main */
-.session-main { padding: 15px; flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column;}
-.timer-card { background-color: #799681; color: white; border-radius: 20px; padding: 30px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-.timer-label { font-size: 50px; opacity: 0.9; }
-.timer-card h1 { font-size: 60px; font-weight: bold; margin-top: 10px; letter-spacing: 2px; }
+.back-btn { 
+    color: #1a1a1a; 
+    font-size: 20px; 
+    font-weight: bold; 
+    text-decoration: none; 
+}
 
-.metrics-grid { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
-.metric-row { background-color: #ffffff; padding: 20px; border-radius: 15px; display: flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; }
-.metric-icon { font-size: 20px; margin-right: 15px; }
-.metric-title { flex-grow: 1; color: #888; font-size: 16px; }
-.metric-value { font-weight: bold; font-size: 18px; color: #1a1a1a; }
+.workout-header h2 { 
+    margin-left: 20px; 
+    color: #333; 
+    font-size: 25px; 
+} 
 
-.controls-row { display: flex; gap: 15px; margin-bottom: 20px; }
-.control-btn { flex: 1; padding: 18px; border: none; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.pause-btn { background-color: #e6e6e6; color: #333; }
-.stop-btn { background-color: #d90429; color: white; }
+.small-logo { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 70px; 
+    height: 70px; 
+    margin-left: auto; 
+    background-color: #6a9c78; 
+    border-radius: 50%; 
+    overflow: hidden; 
+} 
 
-/* Summary View */
-.summary-green-bg { background-color: #799681; color: white; padding: 60px 20px 40px; text-align: center; }
-.success-icon { width: 70px; height: 70px; border: 3px solid white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 35px; margin: 0 auto 15px; }
-.summary-green-bg h2 { font-size: 24px; margin-bottom: 5px; }
-.summary-green-bg p { font-size: 14px; opacity: 0.9; }
+.small-logo img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+}
 
-.summary-main { padding: 20px; flex-grow: 1; background-color: #fcfbfb; border-radius: 25px 25px 0 0; margin-top: -20px; position: relative; }
-.summary-card { background-color: #ffffff; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 30px; }
-.summary-card h3 { font-size: 16px; color: #333; margin-bottom: 20px; }
-.summary-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.stat-box { display: flex; flex-direction: column; }
-.stat-label { font-size: 13px; color: #888; margin-bottom: 5px; }
-.stat-val { font-size: 16px; font-weight: bold; color: #1a1a1a; }
+.header-divider {
+    margin: 20px 0;
+    border: none;
+    border-top: 3px solid #434242;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
 
-.summary-actions { display: flex; flex-direction: column; gap: 15px; }
-.primary-btn { background-color: #6a9c78; color: white; border: none; padding: 18px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
-.secondary-btn { background-color: #e6e6e6; color: #333; border: none; padding: 18px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
+/* =========================================
+   Active Session View
+   ========================================= */
+.session-main { 
+    display: flex; 
+    flex-direction: column;
+    flex-grow: 1; 
+    padding: 15px; 
+    overflow-y: auto; 
+}
 
-/* Bottom Nav */
-.bottom-nav { display: flex;justify-content: space-around;align-items: center;width: 100%;background-color: #ffffff;padding: 15px 0 20px 0;border-top: 1px solid #f0f0f0;box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03);margin-top: auto;flex-shrink: 0; }
-.nav-item {display: flex;flex-direction: column;align-items: center; justify-content: center;text-decoration: none;color: #a0a0a0;font-size: 13px; font-weight: 500;flex: 1;background-color: transparent; box-shadow: none; border-radius: 0;}
-.nav-item.active { color: #6a9c78;}
-.nav-icon {font-size: 40px; margin-bottom: 5px;}
+/* Timer Card */
+.timer-card { 
+    margin-bottom: 20px; 
+    padding: 30px; 
+    color: white; 
+    text-align: center; 
+    background-color: #799681; 
+    border-radius: 20px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+}
 
-/* --- Live Map Styles --- */
-.map-section { width: 100%; margin-bottom: 20px; }
-.expand-btn { position: absolute; bottom: 10px; right: 10px; z-index: 400; background: white; border: 1px solid #ccc; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-.map-fullscreen { position: absolute !important; top: 0; left: 0; width: 100% !important; height: 100% !important; z-index: 1000 !important; border-radius: 35px !important; margin: 0 !important; }
-.close-map-btn { position: absolute; top: 30px; left: 20px; z-index: 1001; background-color: white; color: #333; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.timer-label { 
+    font-size: 50px; 
+    opacity: 0.9; 
+}
+
+.timer-card h1 { 
+    margin-top: 10px; 
+    font-size: 60px; 
+    font-weight: bold; 
+    letter-spacing: 2px; 
+}
+
+/* Metrics Grid */
+.metrics-grid { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+    margin-bottom: 20px; 
+}
+
+.metric-row { 
+    display: flex; 
+    align-items: center; 
+    padding: 20px; 
+    background-color: #ffffff; 
+    border: 1px solid #f0f0f0; 
+    border-radius: 15px; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+}
+
+.metric-icon { 
+    margin-right: 15px; 
+    font-size: 20px; 
+}
+
+.metric-title { 
+    flex-grow: 1; 
+    color: #888; 
+    font-size: 16px; 
+}
+
+.metric-value { 
+    color: #1a1a1a; 
+    font-size: 18px; 
+    font-weight: bold; 
+}
+
+/* Control Buttons */
+.controls-row { 
+    display: flex; 
+    gap: 15px; 
+    margin-bottom: 20px; 
+}
+
+.control-btn { 
+    flex: 1; 
+    padding: 18px; 
+    font-size: 18px; 
+    font-weight: bold; 
+    border: none; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    cursor: pointer; 
+}
+
+.pause-btn { 
+    color: #333; 
+    background-color: #e6e6e6; 
+}
+
+.stop-btn { 
+    color: white; 
+    background-color: #d90429; 
+}
+
+/* =========================================
+   Summary View
+   ========================================= */
+.summary-green-bg { 
+    padding: 60px 20px 40px; 
+    color: white; 
+    text-align: center; 
+    background-color: #799681; 
+}
+
+.success-icon { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 70px; 
+    height: 70px; 
+    margin: 0 auto 15px; 
+    font-size: 35px; 
+    border: 3px solid white; 
+    border-radius: 50%; 
+}
+
+.summary-green-bg h2 { 
+    margin-bottom: 5px; 
+    font-size: 24px; 
+}
+
+.summary-green-bg p { 
+    font-size: 14px; 
+    opacity: 0.9; 
+}
+
+.summary-main { 
+    position: relative; 
+    flex-grow: 1; 
+    margin-top: -20px; 
+    padding: 20px; 
+    background-color: #fcfbfb; 
+    border-radius: 25px 25px 0 0; 
+}
+
+.summary-card { 
+    margin-bottom: 30px; 
+    padding: 20px; 
+    background-color: #ffffff; 
+    border-radius: 20px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+}
+
+.summary-card h3 { 
+    margin-bottom: 20px; 
+    color: #333; 
+    font-size: 16px; 
+}
+
+.summary-stats { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 20px; 
+}
+
+.stat-box { 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.stat-label { 
+    margin-bottom: 5px; 
+    color: #888; 
+    font-size: 13px; 
+}
+
+.stat-val { 
+    color: #1a1a1a; 
+    font-size: 16px; 
+    font-weight: bold; 
+}
+
+.summary-actions { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+.primary-btn { 
+    padding: 18px; 
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    background-color: #6a9c78; 
+    border: none; 
+    border-radius: 25px; 
+    cursor: pointer; 
+}
+
+.secondary-btn { 
+    padding: 18px; 
+    color: #333; 
+    font-size: 16px; 
+    font-weight: bold; 
+    background-color: #e6e6e6; 
+    border: none; 
+    border-radius: 25px; 
+    cursor: pointer; 
+}
+
+/* =========================================
+   Bottom Navigation
+   ========================================= */
+.bottom-nav { 
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-shrink: 0; 
+    width: 100%;
+    margin-top: auto; 
+    padding: 15px 0 20px 0;
+    background-color: #ffffff;
+    border-top: 1px solid #f0f0f0;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03); 
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    color: #a0a0a0;
+    font-size: 13px; 
+    font-weight: 500;
+    text-decoration: none;
+    background-color: transparent; 
+    border-radius: 0;
+    box-shadow: none; 
+}
+
+.nav-item.active { 
+    color: #6a9c78;
+}
+
+.nav-icon {
+    margin-bottom: 5px;
+    font-size: 40px; 
+}
+
+/* =========================================
+   Live Map Styles
+   ========================================= */
+.map-section { 
+    width: 100%; 
+    margin-bottom: 20px; 
+}
+
+.map-fullscreen { 
+    position: absolute !important; 
+    top: 0; 
+    left: 0; 
+    z-index: 1000 !important; 
+    width: 100% !important; 
+    height: 100% !important; 
+    margin: 0 !important; 
+    border-radius: 35px !important; 
+}
+
+.expand-btn { 
+    position: absolute; 
+    right: 10px; 
+    bottom: 10px; 
+    z-index: 400; 
+    padding: 5px 10px; 
+    font-size: 16px; 
+    background: white; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+    cursor: pointer; 
+}
+
+.close-map-btn { 
+    position: absolute; 
+    top: 30px; 
+    left: 20px; 
+    z-index: 1001; 
+    padding: 10px 20px; 
+    color: #333; 
+    font-size: 16px; 
+    font-weight: bold; 
+    background-color: white; 
+    border: none; 
+    border-radius: 20px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+    cursor: pointer; 
+}

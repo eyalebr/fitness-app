@@ -55,3 +55,29 @@ exports.login = async (req, res) => {
         res.status(500).json({ message: 'Server error during login.' });
     }
 };
+
+exports.updatePassword = async (req, res) => {
+    try {
+        const { userId, newPassword } = req.body;
+
+        // 1. הצפנת הסיסמה החדשה
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+        
+        // 2. עדכון המשתמש במסד הנתונים
+        const updatedUser = await User.findByIdAndUpdate(
+            userId, 
+            { password: hashedPassword }, 
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ message: "Password updated successfully" });
+    } catch (error) {
+        console.error("Error in updatePassword:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};

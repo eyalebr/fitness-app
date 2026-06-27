@@ -2,13 +2,23 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
 body { background-color: #f1eeee; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-top: 20px; }
 
-/* השלד החיצוני - זהה לכל הדפים */
+/*השלד החיצוני */
 .app-container {
-    width: 100%; max-width: 500px; background-color: #ffffff;
-    border-radius: 35px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    overflow: hidden; display: flex; flex-direction: column;
-    height: 95vh; position: relative; margin: 10px auto;
+    width: 100%;
+    max-width: 500px;
+    height: 1000px;
+    min-height: 1000px; 
+    flex-shrink: 0;
+    background-color: #ffffff;
+    border-radius: 35px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden; 
+    display: flex; 
+    flex-direction: column;
+    position: relative; 
+    margin: 10px auto;
 }
+
 
 /* --- הדר עליון --- */
 .workout-header {
@@ -63,6 +73,19 @@ body { background-color: #f1eeee; display: flex; flex-direction: column; align-i
 .workout-main {
     padding: 20px;
     flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* עיצוב הגלגלת באותו צבע ירוק שביקשת */
+.workout-main::-webkit-scrollbar {
+    width: 6px; 
+}
+.workout-main::-webkit-scrollbar-track {
+    background: transparent; 
+}
+.workout-main::-webkit-scrollbar-thumb {
+    background-color: #6a9c78; 
+    border-radius: 10px; 
 }
 
 .section-subtitle {

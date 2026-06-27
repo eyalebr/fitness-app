@@ -3,16 +3,19 @@
      padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
 body { background-color: #f1eeee; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-top: 20px; }
 
-/* השלד החיצוני - זהה לכל הדפים */
+/*השלד החיצוני */
 .app-container {
     width: 100%;
-     max-width: 500px;
-      background-color: #ffffff;
-    border-radius: 35px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 500px;
+    height: 1000px;
+    min-height: 1000px; 
+    flex-shrink: 0;
+    background-color: #ffffff;
+    border-radius: 35px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     overflow: hidden; 
     display: flex; 
     flex-direction: column;
-    max-height: 100vh; 
     position: relative; 
     margin: 10px auto;
 }

@@ -7,18 +7,21 @@ body {
     min-height: 100vh;
     padding-top: 20px;
 }
+/*השלד החיצוני */
 .app-container {
     width: 100%;
     max-width: 500px;
+    height: 1000px;
+    min-height: 1000px; 
+    flex-shrink: 0;
     background-color: #ffffff;
     border-radius: 35px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
-    overflow: hidden;
-    display: flex;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden; 
+    display: flex; 
     flex-direction: column;
-    max-height: 96vh;
-    height: 1000px;
-    position: relative; /* חשוב למפה מסך מלא */
+    position: relative; 
+    margin: 10px auto;
 }
 
 /* Header */

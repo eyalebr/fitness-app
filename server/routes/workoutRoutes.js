@@ -9,7 +9,8 @@ const {
     deleteWorkout,
     getWorkoutsByType, 
     getWorkoutStats,
-    getWeeklyChartData    
+    getWeeklyChartData,
+    getMonthlyChartData   
 } = require('../controllers/workoutController');
 
 // קריאה ויצירה (פועלים על כל האימונים)
@@ -20,6 +21,7 @@ router.post('/', createWorkout);
 router.get('/stats/summary', getWorkoutStats);
 router.get('/activity/:type', getWorkoutsByType);
 router.get('/weekly-chart', getWeeklyChartData);
+router.get('/monthly-chart', getMonthlyChartData);
 
 // עדכון ומחיקה (פועלים על אימון ספציפי לפי ID)
 router.put('/:id', updateWorkout);

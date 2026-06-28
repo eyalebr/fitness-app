@@ -1,3 +1,20 @@
+// פונקציית מודאל מותאמת אישית במקום alert 
+function showCustomSessionAlert(message, isSuccess = true) {
+    const modal = document.createElement('div');
+    modal.className = 'custom-popup-modal';
+    modal.innerHTML = `
+        <div class="popup-modal-content">
+            <div class="popup-modal-icon" style="color: ${isSuccess ? '#6a9c78' : '#d90429'}">
+                ${isSuccess ? '✓' : '⚠️'}
+            </div>
+            <p class="popup-modal-text">${message}</p>
+            <button class="popup-modal-close-btn">OK</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    modal.querySelector('.popup-modal-close-btn').addEventListener('click', () => modal.remove());
+}
+
 // משתני מערכת לטיימר ולחישובים
 let timerInterval;
 let seconds = 0;
@@ -88,7 +105,10 @@ function initLiveMap() {
     // אפשרות לשנות מסלול באמצע האימון בלחיצה על המפה
     sessionMap.on('click', function(e) {
         if (!mapDiv.classList.contains('map-fullscreen')) return;
-        if (!lastLatLng) { alert("Waiting for GPS lock..."); return; }
+        if (!lastLatLng) { 
+            showCustomSessionAlert("Waiting for GPS lock...", false); 
+            return; 
+        }
         drawRouteToTarget(e.latlng);
     });
 }
@@ -181,7 +201,7 @@ document.getElementById('doneBtn').addEventListener('click', async function() {
     const userId = userData.user ? userData.user._id : userData._id;
 
     if (!userId) {
-        alert("Error: User not logged in.");
+        showCustomSessionAlert("Error: User not logged in.", false);
         return;
     }
 
@@ -209,11 +229,11 @@ document.getElementById('doneBtn').addEventListener('click', async function() {
         if (response.ok) {
             window.location.href = 'home.html';
         } else {
-            alert('Failed to save workout. Server responded with error.');
+            showCustomSessionAlert('Failed to save workout. Server responded with error.', false);
         }
     } catch (error) {
         console.error('Error saving workout:', error);
-        alert('Error connecting to server.');
+        showCustomSessionAlert('Error connecting to server.', false);
     }
 });
 

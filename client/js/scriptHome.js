@@ -168,6 +168,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. נטען את המפה
     initMap();
     
+    refreshHomeData();
+
     // רענון אוטומטי כל 30 שניות
     setInterval(fetchWorkoutStats, 30000);
 });
+
+// פונקציה חדשה שמרעננת את הנתונים מהשרת
+async function refreshHomeData() {
+    const userData = JSON.parse(localStorage.getItem('user'));
+    if (!userData) return;
+
+    const userId = userData.user ? userData.user._id : userData._id;
+
+    try {
+        // משיכה מעודכנת של האימונים מהשרת
+        const response = await fetch(`/api/workouts?userId=${userId}`);
+        const workouts = await response.json();
+
+        // חישוב מחדש של הצעדים/קלוריות מהנתונים העדכניים ביותר
+        const totalSteps = workouts.reduce((sum, w) => sum + (w.steps || 0), 0);
+        
+        // עדכון ה-UI בנתונים העדכניים
+        const stepsElement = document.getElementById('daily-steps');
+        if (stepsElement) {
+            stepsElement.textContent = totalSteps.toLocaleString();
+        }
+    } catch (error) {
+        console.error("Error refreshing home data:", error);
+    }
+}

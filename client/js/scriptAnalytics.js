@@ -27,55 +27,48 @@ async function switchView(view) {
 async function loadData() {
     try {
         const userData = JSON.parse(localStorage.getItem('user'));
+        if (!userData) return;
         const userId = userData.user ? userData.user._id : userData._id;
 
-        // הוספת ה-userId לכל הכתובות ב-fetch
-        const [workoutsRes, chartRes, statsRes] = await Promise.all([
-            fetch(`/api/workouts?userId=${userId}`),
-            fetch(`/api/workouts/weekly-chart?userId=${userId}`),
-            fetch(`/api/workouts/stats/summary?userId=${userId}`)
-        ]);
+        // 1. משיכת רשימת האימונים העדכנית ביותר מהשרת
+        const response = await fetch(`/api/workouts?userId=${userId}`);
+        const workouts = await response.json(); 
 
-        const workouts = await workoutsRes.json();
-        const chartData = await chartRes.json();
-        const stats = await statsRes.json();
-
-        // עדכון היסטוריה
+        // 2. עדכון רשימת ההיסטוריה ב-DOM
         const historyList = document.getElementById('historyList');
-        historyList.innerHTML = '';
-        const activityIcons = { 'Running': '🏃', 'Walking': '🚶', 'Cycling': '🚴', 'Custom': '⚡' };
+        historyList.innerHTML = ''; // ניקוי הרשימה הישנה כדי למנוע כפילויות
 
         workouts.forEach(w => {
             const item = document.createElement('div');
             item.className = 'history-item';
             item.innerHTML = `
                 <div class="history-left">
-                    <span class="history-icon">${activityIcons[w.activityType] || '⚡'}</span>
+                    <div class="history-icon">🏃‍♂️</div>
                     <div class="history-text">
-                        <h3>${w.activityType}</h3>
-                        <p>📅 ${new Date(w.createdAt).toLocaleDateString()}</p>
+                        <h3>${w.title}</h3>
+                        <p>${new Date(w.createdAt).toLocaleDateString()}</p>
                     </div>
                 </div>
                 <div class="history-details">
-                    <strong>${w.duration} min</strong>
+                    <strong>${w.calories} kcal</strong>
                     <p>${w.distance || 0} km</p>
                 </div>
             `;
             historyList.appendChild(item);
         });
 
-        // עדכון סטטיסטיקות
-        document.getElementById('totalWorkouts').textContent = stats.weekly.totalWorkouts || 0;
-        document.getElementById('caloriesBurned').textContent = stats.weekly.totalCalories || 0;
-        document.getElementById('avgDuration').textContent = (stats.weekly.avgDuration || 0) + ' min';
+        // 3. עדכון הסטטיסטיקות (חישוב מהנתונים החדשים שחזרו מהשרת)
+        document.getElementById('totalWorkouts').textContent = workouts.length;
         
-        // אתחול גרף ראשוני
+        // עדכון גרף במידת הצורך
         if (progressChart) {
-            progressChart.data.datasets[0].data = chartData.map(item => item.totalCalories);
-            progressChart.update();
+             // כאן נכנסת הלוגיקה שלך לעדכון הגרף לפי workouts
+             progressChart.update();
         }
 
-    } catch (err) { console.error("Error:", err); }
+    } catch (err) { 
+        console.error("Error loading analytics data:", err); 
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

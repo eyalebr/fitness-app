@@ -169,3 +169,11 @@ body {
     margin-bottom: 5px;
     font-size: 30px; 
 }
+.goals-back-btn {
+    text-decoration: none; 
+    color: black; 
+    font-size: 24px;
+}
+.goals-title { 
+    margin-bottom: 20px; 
+}

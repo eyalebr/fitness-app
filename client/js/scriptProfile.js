@@ -1,4 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // פונקציית עזר להצגת מודאל התראה מעוצב (במקום alert)
+    function showCustomAlert(message, isSuccess = true) {
+        const modal = document.createElement('div');
+        modal.className = 'custom-popup-modal';
+        modal.innerHTML = `
+            <div class="popup-modal-content">
+                <div class="popup-modal-icon" style="color: ${isSuccess ? '#6a9c78' : '#d90429'}">
+                    ${isSuccess ? '✓' : '⚠️'}
+                </div>
+                <p class="popup-modal-text">${message}</p>
+                <button class="popup-modal-close-btn">OK</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.querySelector('.popup-modal-close-btn').addEventListener('click', () => modal.remove());
+    }
+
+    // פונקציית עזר להצגת מודאל אישור מעוצב (במקום confirm)
+    function showCustomConfirm(message, onConfirm) {
+        const modal = document.createElement('div');
+        modal.className = 'custom-popup-modal';
+        modal.innerHTML = `
+            <div class="popup-modal-content">
+                <div class="popup-modal-icon" style="color: #fbc02d">❓</div>
+                <p class="popup-modal-text">${message}</p>
+                <div class="popup-modal-actions">
+                    <button class="popup-modal-btn cancel-btn">No</button>
+                    <button class="popup-modal-btn confirm-btn">Yes</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelector('.cancel-btn').addEventListener('click', () => {
+            modal.remove();
+            onConfirm(false);
+        });
+        modal.querySelector('.confirm-btn').addEventListener('click', () => {
+            modal.remove();
+            onConfirm(true);
+        });
+    }
+
     // 1. שאיבת נתוני המשתמש מ-localStorage
     const userDataString = localStorage.getItem('user');
     
@@ -18,21 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. מעבר למסך עריכת פרופיל
     document.getElementById('btnGoToEdit').addEventListener('click', () => {
-        document.getElementById('main-profile-view').style.display = 'none';
-        document.getElementById('edit-profile-view').style.display = 'block';
+        document.getElementById('main-profile-view').classList.add('hidden-view');
+        document.getElementById('edit-profile-view').classList.remove('hidden-view');
     });
 
-    // מעבר חזרה מפרופיל העריכה למסך הראשי
     document.getElementById('btnBackToProfile').addEventListener('click', () => {
-        document.getElementById('edit-profile-view').style.display = 'none';
-        document.getElementById('main-profile-view').style.display = 'block';
+        document.getElementById('edit-profile-view').classList.add('hidden-view');
+        document.getElementById('main-profile-view').classList.remove('hidden-view');
     });
 
-    // --- לוגיקת שינוי סיסמה (התוספת שביקשת) ---
+    // --- לוגיקת שינוי סיסמה ---
     document.getElementById('btnConfirmChange').addEventListener('click', async () => {
         const newPassword = document.getElementById('newPassword').value;
         if (newPassword.length < 6) {
-            alert("Password must be at least 6 characters long.");
+            showCustomAlert("Password must be at least 6 characters long.", false);
             return;
         }
 
@@ -47,20 +89,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                alert("Password updated successfully!");
-                document.getElementById('newPassword').value = ''; // איפוס השדה
-                document.getElementById('edit-profile-view').style.display = 'none';
-                document.getElementById('main-profile-view').style.display = 'block';
+                showCustomAlert("Password updated successfully!", true);
+                document.getElementById('newPassword').value = ''; 
+                document.getElementById('edit-profile-view').classList.add('hidden-view');
+                document.getElementById('main-profile-view').classList.remove('hidden-view');
             } else {
-                alert("Failed to update password.");
+                showCustomAlert("Failed to update password.", false);
             }
         } catch (error) {
             console.error("Error updating password:", error);
-            alert("Server error. Please try again.");
+            showCustomAlert("Server error. Please try again.", false);
         }
     });
 
-    // 3. שאר הלוגיקה הקיימת
     document.getElementById('btnGoals').addEventListener('click', () => {
         window.location.href = 'goals.html';
     });
@@ -74,36 +115,31 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
     });
 
-    document.getElementById('btnDeleteAccount').addEventListener('click', async () => {
-    // 1. הודעת אישור למשתמש
-    const isConfirmed = confirm("Are you sure you want to delete your account? This action cannot be undone.");
-    
-    if (isConfirmed) {
-        const userData = JSON.parse(localStorage.getItem('user'));
-        const userId = userData.user ? userData.user._id : userData._id;
+    // --- לוגיקת מחיקת חשבון מתוקנת ומעוצבת ---
+    document.getElementById('btnDeleteAccount').addEventListener('click', () => {
+        showCustomConfirm("Are you sure you want to delete your account? This action cannot be undone.", async (isConfirmed) => {
+            if (isConfirmed) {
+                const userData = JSON.parse(localStorage.getItem('user'));
+                const userId = userData.user ? userData.user._id : userData._id;
 
-        try {
-            // 2. קריאה לשרת למחיקת המשתמש והנתונים שלו
-            const response = await fetch(`/api/users/delete-account/${userId}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' }
-            });
+                try {
+                    const response = await fetch(`/api/users/delete-account/${userId}`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
 
-            if (response.ok) {
-                // 3. ניקוי מקומי והעברה לדף כניסה
-                localStorage.removeItem('user');
-                alert("Account deleted successfully.");
-                window.location.href = 'index.html';
-            } else {
-                alert("Failed to delete account. Please try again.");
+                    if (response.ok) {
+                        localStorage.removeItem('user');
+                        showCustomAlert("Account deleted successfully.", true);
+                        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+                    } else {
+                        showCustomAlert("Failed to delete account. Please try again.", false);
+                    }
+                } catch (error) {
+                    console.error("Error deleting account:", error);
+                    showCustomAlert("Server error.", false);
+                }
             }
-        } catch (error) {
-            console.error("Error deleting account:", error);
-            alert("Server error.");
-        }
-    } else {
-        // אם לחץ "ביטול" - חוזר לדף העריכה (פשוט לא עושים כלום)
-        console.log("Deletion cancelled");
-    }
-});
+        });
+    });
 });

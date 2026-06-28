@@ -399,3 +399,12 @@ main::-webkit-scrollbar-thumb {
 .lets-go-btn:hover {
     background-color: #557d60; 
 }
+
+.home-map-wrapper { 
+    position: relative; 
+}
+.home-map-render { 
+    height: 250px; 
+    border-radius: 12px; 
+    z-index: 1; 
+}

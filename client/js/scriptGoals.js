@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const inputs = document.querySelectorAll('.edit-input');
     const saveBtn = document.querySelector('.confirm-btn');
-    const cancelBtn = document.querySelector('.secondary-btn'); // הוספנו את זה!
+    const cancelBtn = document.querySelector('.secondary-btn'); 
 
     if (inputs.length < 2 || !saveBtn || !cancelBtn) {
         console.error("Error: Could not find inputs, save or cancel button.");

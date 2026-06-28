@@ -28,10 +28,8 @@ app.use('/api/explore', externalRoutes);
 app.use('/api/users', userRoutes);
 
 // 5. הפעלת השרת
-(async () => {
-    const { default: getPort } = await import('get-port');
-    const PORT = await getPort({ port: process.env.PORT || 3000 });
-    app.listen(PORT, () => {
-        console.log(`Server is running smoothly on port ${PORT}`);
-    });
-})();
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
+});

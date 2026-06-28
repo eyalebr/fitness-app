@@ -152,6 +152,8 @@ function initMap() {
 
 // אתחול הכל בטעינת הדף
 document.addEventListener('DOMContentLoaded', () => {
+    
+    const savedGoals = JSON.parse(localStorage.getItem('userGoals'));
     // עדכון תאריך אוטומטי
     const dateElement = document.getElementById('current-date');
     if (dateElement) {

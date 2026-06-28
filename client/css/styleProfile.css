@@ -279,6 +279,25 @@ body {
     transform: scale(0.98); 
 }
 
+.delete-btn {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto 0 auto;
+    padding: 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #d90429; /* אדום */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #b00320;
+}
 /* =========================================
    Bottom Navigation
    ========================================= */

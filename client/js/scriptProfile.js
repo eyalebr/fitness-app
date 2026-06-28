@@ -73,4 +73,37 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('user');
         window.location.href = 'index.html';
     });
+
+    document.getElementById('btnDeleteAccount').addEventListener('click', async () => {
+    // 1. הודעת אישור למשתמש
+    const isConfirmed = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+    
+    if (isConfirmed) {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        const userId = userData.user ? userData.user._id : userData._id;
+
+        try {
+            // 2. קריאה לשרת למחיקת המשתמש והנתונים שלו
+            const response = await fetch(`/api/users/delete-account/${userId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+                // 3. ניקוי מקומי והעברה לדף כניסה
+                localStorage.removeItem('user');
+                alert("Account deleted successfully.");
+                window.location.href = 'index.html';
+            } else {
+                alert("Failed to delete account. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error deleting account:", error);
+            alert("Server error.");
+        }
+    } else {
+        // אם לחץ "ביטול" - חוזר לדף העריכה (פשוט לא עושים כלום)
+        console.log("Deletion cancelled");
+    }
+});
 });

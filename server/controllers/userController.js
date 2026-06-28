@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt'); // הוספנו את ספריית ההצפנה
+const Workout = require('../models/Workout');
 
 // פונקציה להרשמת משתמש חדש
 exports.register = async (req, res) => {
@@ -79,5 +80,25 @@ exports.updatePassword = async (req, res) => {
     } catch (error) {
         console.error("Error in updatePassword:", error);
         res.status(500).json({ message: "Server error" });
+    }
+};
+exports.deleteAccount = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        // 1. מחיקת כל האימונים ששייכים למשתמש
+        await Workout.deleteMany({ userId: userId });
+
+        // 2. מחיקת המשתמש עצמו
+        const deletedUser = await User.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ message: "Account and data deleted successfully." });
+    } catch (error) {
+        console.error("Error deleting account:", error);
+        res.status(500).json({ message: "Server error during account deletion." });
     }
 };

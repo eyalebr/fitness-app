@@ -2,12 +2,16 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
-// נתיב להרשמה (POST /api/users/register)
+// נתיב להרשמה
 router.post('/register', userController.register);
 
-// נתיב להתחברות (POST /api/users/login)
+// נתיב להתחברות
 router.post('/login', userController.login);
 
-// הוסף את השורה הזו מתחת לנתיב ה-login הקיים
+// נתיב לעדכון סיסמה
 router.put('/update-password', userController.updatePassword);
+
+// --- הוסף כאן את הנתיב החדש ---
+router.delete('/delete-account/:userId', userController.deleteAccount);
+
 module.exports = router;

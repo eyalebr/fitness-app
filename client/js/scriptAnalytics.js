@@ -23,7 +23,7 @@ async function switchView(view) {
         progressChart.update();
     }
 }
-
+//  עדכון הסטטיסטיקו)
 async function loadData() {
     try {
         const userData = JSON.parse(localStorage.getItem('user'));
@@ -58,14 +58,38 @@ async function loadData() {
         });
 
         // 3. עדכון הסטטיסטיקות (חישוב מהנתונים החדשים שחזרו מהשרת)
-        document.getElementById('totalWorkouts').textContent = workouts.length;
+        const totalWorkouts = workouts.length;
+        document.getElementById('totalWorkouts').textContent = totalWorkouts;
+        
+        if (totalWorkouts > 0) {
+            // סכימת הנתונים
+            let totalCalories = 0;
+            let totalDuration = 0;
+            
+            workouts.forEach(w => {
+                totalCalories += (w.calories || 0);
+                totalDuration += (w.duration || 0); // בהנחה שיש שדה duration במסד הנתונים
+            });
+            
+            // חישוב הממוצע (עיגול למספר שלם)
+            const avgCalories = Math.round(totalCalories / totalWorkouts);
+            const avgDuration = Math.round(totalDuration / totalWorkouts);
+            
+            // עדכון המסך
+            document.getElementById('caloriesBurned').textContent = avgCalories;
+            document.getElementById('avgDuration').textContent = `${avgDuration} min`;
+        } else {
+            // איפוס במקרה שאין אימונים
+            document.getElementById('caloriesBurned').textContent = '0';
+            document.getElementById('avgDuration').textContent = '—';
+        }
         
         // עדכון גרף במידת הצורך
         if (progressChart) {
              // כאן נכנסת הלוגיקה שלך לעדכון הגרף לפי workouts
              progressChart.update();
         }
-
+        
     } catch (err) { 
         console.error("Error loading analytics data:", err); 
     }

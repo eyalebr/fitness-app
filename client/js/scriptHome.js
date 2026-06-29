@@ -2,6 +2,25 @@
 let currentStepGoal = 10000;
 let currentCalGoal = 600;
 
+
+function updateGreeting() {
+    const currentHour = new Date().getHours();
+    let greetingText = 'Good Morning'; // ברירת מחדל לבוקר (5:00 עד 11:59)
+
+    if (currentHour >= 12 && currentHour < 18) {
+        greetingText = 'Good Afternoon'; // צהריים (12:00 עד 17:59)
+    } else if (currentHour >= 18 && currentHour < 22) {
+        greetingText = 'Good Evening'; // ערב (18:00 עד 21:59)
+    } else if (currentHour >= 22 || currentHour < 5) {
+        greetingText = 'Good Night'; // לילה (22:00 עד 4:59)
+    }
+
+    // מוצאים את אלמנט הכותרת ב-HTML ומעדכנים אותו
+    const greetingElement = document.querySelector('.greeting-area h1');
+    if (greetingElement) {
+        greetingElement.textContent = greetingText;
+    }
+}
 // פונקציה חדשה שרצה מיד ודואגת רק ליעדים!
 function updateGoalsDisplay() {
     const savedGoals = JSON.parse(localStorage.getItem('userGoals'));
@@ -171,6 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initMap();
     
     refreshHomeData();
+
+    updateGreeting();
 
     // רענון אוטומטי כל 30 שניות
     setInterval(fetchWorkoutStats, 30000);
